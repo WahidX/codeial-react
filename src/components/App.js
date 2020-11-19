@@ -1,7 +1,28 @@
-import './App.css';
+import React from 'react';
+import { connect } from 'react-redux';
 
-function App() {
-  return <div className="App">Hi SomeX</div>;
+import './App.css';
+import { fetchPosts } from '../actions/posts';
+
+class App extends React.Component {
+  componentDidMount() {
+    this.props.dispatch(fetchPosts());
+  }
+
+  render() {
+    const { posts } = this.props;
+    return (
+      <div>
+        <div className="posts-list">posts on loop</div>
+      </div>
+    );
+  }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    posts: state.posts,
+  };
+}
+
+export default connect(mapStateToProps)(App);
