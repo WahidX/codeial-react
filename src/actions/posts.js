@@ -1,15 +1,22 @@
+var axios = require('axios');
+
 import { UPDATE_POSTS } from './actionTypes';
+import { APIurls } from '../helpers/urls';
 
 export function fetchPosts() {
   return (dispatch) => {
-    const url = 'http://codeial.com:8000/api/v2/posts?page=1&limit=5';
-    fetch(url)
-      .then((response) => {
-        return response.json();
+    var config = {
+      method: 'get',
+      url: APIurls.fetchPosts(),
+    };
+    console.log(config.url);
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        dispatch(updatePosts(response.data.posts));
       })
-      .then((data) => {
-        console.log('Data: ', data.data.posts);
-        dispatch(updatePosts(data.data.posts));
+      .catch(function (error) {
+        console.log(error);
       });
   };
 }

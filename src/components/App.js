@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import './App.css';
 import { fetchPosts } from '../actions/posts';
+import { ButtonAppBar, PostList, PostForm } from './';
 
 class App extends React.Component {
   componentDidMount() {
@@ -12,9 +12,12 @@ class App extends React.Component {
   render() {
     const { posts } = this.props;
     return (
-      <div>
+      <React.Fragment>
+        <ButtonAppBar />
+        <PostForm />
+        <PostList />
         <div className="posts-list">posts on loop</div>
-      </div>
+      </React.Fragment>
     );
   }
 }
