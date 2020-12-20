@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Card,
   CardContent,
@@ -30,7 +30,6 @@ const useStyles = makeStyles({
 function PostItem(props) {
   const classes = useStyles();
   let post = props.post;
-  console.log('POST: ', post);
 
   return (
     <Card className={classes.root} variant="outlined">

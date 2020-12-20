@@ -1,1 +1,4 @@
 export const UPDATE_POSTS = 'UPDATE_POSTS';
+export const START_POSTING = 'START_POSTING';
+export const POSTING_FAILED = 'POSTING_FAILED';
+export const POSTING_SUCCESS = 'POSTING_SUCCESS';
