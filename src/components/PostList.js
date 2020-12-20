@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { PostItem } from './';
 
-class PostList extends Component {
-  render() {
-    return (
-      <div>
-        <PostItem />
-        <PostItem />
-        <PostItem />
-        <PostItem />
-        <PostItem />
-        <PostItem />
-      </div>
-    );
-  }
+// Main Component Function
+function PostList(props) {
+  let posts = props.posts;
+
+  return (
+    <React.Fragment>
+      {posts.map((post) => (
+        <PostItem key={post._id} post={post} />
+      ))}
+    </React.Fragment>
+  );
 }
 
-export default PostList;
+function mapStateToProps(state) {
+  return {
+    posts: state.posts,
+  };
+}
+
+export default connect(mapStateToProps)(PostList);

@@ -1,7 +1,7 @@
-var axios = require('axios');
-
 import { UPDATE_POSTS } from './actionTypes';
 import { APIurls } from '../helpers/urls';
+
+const axios = require('axios');
 
 export function fetchPosts() {
   return (dispatch) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchPosts } from '../actions/posts';
-import { ButtonAppBar, PostList, PostForm } from './';
+import { ButtonAppBar, PostList, PostForm, Footer } from './';
 
 class App extends React.Component {
   componentDidMount() {
@@ -16,7 +16,7 @@ class App extends React.Component {
         <ButtonAppBar />
         <PostForm />
         <PostList />
-        <div className="posts-list">posts on loop</div>
+        <Footer />
       </React.Fragment>
     );
   }
