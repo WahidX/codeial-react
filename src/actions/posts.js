@@ -33,8 +33,7 @@ export function addPost(content) {
       method: 'post',
       url: APIurls.addPost(),
       headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmRmMzk0MmM1OGEwNzAwMjQwZTI5MmYiLCJpYXQiOjE2MDg0Nzk5NjUsImV4cCI6MTYwODQ4OTk2NX0.k4eqf7zvidfDhutqG8icCOE44GwTaPXJ08_qWc1QBfk',
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       data: qs.stringify({

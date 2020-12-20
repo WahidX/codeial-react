@@ -10,15 +10,9 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_FAILED,
   LOGOUT,
+  AUTHENTICATE_USER,
 } from './actionTypes';
 import { APIurls } from '../helpers/urls';
-
-// This one restores browser session
-export function fetchUser() {
-  return (dispatch) => {
-    let config = {};
-  };
-}
 
 export function startLogin() {
   return {
@@ -37,12 +31,6 @@ export function loginSuccess(user) {
   return {
     type: LOGIN_SUCCESS,
     user,
-  };
-}
-
-export function logoutUser() {
-  return {
-    type: LOGOUT,
   };
 }
 
@@ -127,5 +115,47 @@ export function createUser(name, email, password, confirm_password) {
         console.log(error);
         dispatch(signupFailed());
       });
+  };
+}
+
+// This one restores browser session
+export function fetchUser() {
+  return (dispatch) => {
+    var config = {
+      method: 'post',
+      url: APIurls.fetchUser(),
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log('reponse: ', response.data);
+        dispatch(authenticateUser(response.data.data.user));
+      })
+      .catch(function (error) {
+        dispatch(loginFailed('none'));
+      });
+  };
+}
+
+export function authenticateUser(user) {
+  return {
+    type: AUTHENTICATE_USER,
+    user,
+  };
+}
+
+export function logoutUser() {
+  return (dispatch) => {
+    localStorage.removeItem('token');
+    dispatch(logout());
+  };
+}
+
+export function logout() {
+  return {
+    type: LOGOUT,
   };
 }

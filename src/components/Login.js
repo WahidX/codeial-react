@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { Button, TextField } from '@material-ui/core';
 
 import { createSession } from '../actions/user';
@@ -16,7 +17,8 @@ function Login(props) {
     setPassword(e.target.value);
   };
 
-  function onSubmit() {
+  function onSubmit(e) {
+    e.preventDefault();
     let emailContent = email.trim();
 
     if (emailContent.length !== 0 && password.length !== 0) {
@@ -26,7 +28,10 @@ function Login(props) {
     }
   }
 
-  let inProgress = props.inProgress;
+  let { inProgress, isLoggedin } = props.user;
+  if (isLoggedin) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <form className="form-container">
@@ -47,7 +52,12 @@ function Login(props) {
         variant="outlined"
         onChange={onChangePassword}
       />
-      <Button disabled={inProgress} onClick={onSubmit}>
+      <Button
+        type="submit"
+        className="submit-btn"
+        disabled={inProgress}
+        onClick={onSubmit}
+      >
         Login
       </Button>
       <a href="#">

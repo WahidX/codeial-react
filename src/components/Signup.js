@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { Button, TextField } from '@material-ui/core';
 
 import { createUser } from '../actions/user';
@@ -26,7 +27,8 @@ function Signup(props) {
     setConfirmPassword(e.target.value);
   };
 
-  function onSubmit() {
+  function onSubmit(e) {
+    e.preventDefault();
     let emailContent = email.trim();
     let nameContent = name.trim();
 
@@ -49,7 +51,12 @@ function Signup(props) {
     }
   }
 
-  let inProgress = props.inProgress;
+  let { inProgress, isLoggedin } = props.user;
+
+  if (isLoggedin) {
+    console.log('Redirect');
+    return <Redirect to="/" />;
+  }
 
   return (
     <form className="form-container">
@@ -87,7 +94,12 @@ function Signup(props) {
         onChange={onChangeConfirmPassword}
       />
 
-      <Button disabled={inProgress} onClick={onSubmit}>
+      <Button
+        type="submit"
+        className="submit-btn"
+        disabled={inProgress}
+        onClick={onSubmit}
+      >
         Signup
       </Button>
       <a href="#">

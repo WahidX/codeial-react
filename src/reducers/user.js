@@ -5,7 +5,7 @@ import {
   SIGNUP_START,
   SIGNUP_SUCCESS,
   SIGNUP_FAILED,
-  // AUTHENTICATE_USER,
+  AUTHENTICATE_USER,
   CLEAR_AUTH_STATE,
   LOGOUT,
 } from '../actions/actionTypes';
@@ -39,14 +39,15 @@ export default function user(state = initialAuthState, action) {
       return {
         ...state,
         error: action.error,
+        isLoggedin: false,
         inProgress: false,
       };
-    //   case AUTHENTICATE_USER:
-    //     return {
-    //       ...state,
-    //       user: action.user,
-    //       isLoggedin: true,
-    //     };
+    case AUTHENTICATE_USER:
+      return {
+        ...state,
+        user: action.user,
+        isLoggedin: true,
+      };
     case LOGOUT:
       return {
         ...state,

@@ -7,7 +7,9 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import { fetchUser } from '../actions/user';
 import { fetchPosts } from '../actions/posts';
+
 import { ButtonAppBar, PostList, Signup, Login, Profile, Footer } from './';
 
 const PrivateRoute = (privateRouteProps) => {
@@ -25,6 +27,7 @@ const PrivateRoute = (privateRouteProps) => {
 class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
+    this.props.dispatch(fetchUser());
   }
 
   render() {

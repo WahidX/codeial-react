@@ -6,7 +6,10 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
+
 import { makeStyles } from '@material-ui/core/styles';
+import ExpandLessTwoToneIcon from '@material-ui/icons/ExpandLessTwoTone';
+import ArrowUpwardTwoToneIcon from '@material-ui/icons/ArrowUpwardTwoTone';
 
 const useStyles = makeStyles({
   root: {
@@ -42,7 +45,12 @@ function PostItem(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Like</Button>
+        <Button size="small">
+          <ExpandLessTwoToneIcon />
+        </Button>
+        <Button size="small">
+          <ArrowUpwardTwoToneIcon />
+        </Button>
       </CardActions>
     </Card>
   );
