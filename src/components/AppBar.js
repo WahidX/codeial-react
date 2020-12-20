@@ -7,6 +7,7 @@ import {
   IconButton,
   Button,
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { AccountCircle } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,12 +41,19 @@ export default function ButtonAppBar() {
           >
             {/* <MenuIcon /> */}
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            CodeialX
+          <Typography variant="h4" className={classes.title}>
+            <Link to="/">CodeialX</Link>
           </Typography>
 
-          <Button color="inherit">Profile</Button>
-          <Button color="inherit">Login</Button>
+          <Link to="/profile">
+            <Button color="inherit">Profile</Button>
+          </Link>
+          <Link to="Login">
+            <Button color="inherit">Login</Button>
+          </Link>
+          <Link to="Signup">
+            <Button color="inherit">Signup</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>

@@ -1,8 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 
 import { fetchPosts } from '../actions/posts';
-import { ButtonAppBar, PostList, PostForm, Footer } from './';
+import { ButtonAppBar, PostList, Signup, Login, Profile, Footer } from './';
+
+const PrivateRoute = (privateRouteProps) => {
+  const { isLoggedin, path, component: Component } = privateRouteProps;
+  return (
+    <Route
+      path={path}
+      render={(props) => {
+        return isLoggedin ? <Component {...props} /> : <Redirect to="/login" />;
+      }}
+    />
+  );
+};
 
 class App extends React.Component {
   componentDidMount() {
@@ -10,14 +28,25 @@ class App extends React.Component {
   }
 
   render() {
-    const { posts } = this.props;
+    const isLoggedin = this.props.user.isLoggedin;
+
     return (
-      <React.Fragment>
+      <Router>
         <ButtonAppBar />
-        <PostForm />
-        <PostList />
+        <Switch>
+          <Route exact path="/" component={PostList} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/login" component={Login} />
+          <PrivateRoute
+            exact
+            path="/profile"
+            component={Profile}
+            isLoggedin={isLoggedin}
+          />
+          {/* <Route component={Page404} /> */}
+        </Switch>
         <Footer />
-      </React.Fragment>
+      </Router>
     );
   }
 }
@@ -25,6 +54,7 @@ class App extends React.Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts,
+    user: state.user,
   };
 }
 

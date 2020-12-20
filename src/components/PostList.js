@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { PostItem } from './';
+import { PostItem, PostForm } from './';
 
 // Main Component Function
 function PostList(props) {
@@ -9,6 +9,7 @@ function PostList(props) {
 
   return (
     <React.Fragment>
+      <PostForm />
       {posts.map((post) => (
         <PostItem key={post._id} post={post} />
       ))}
