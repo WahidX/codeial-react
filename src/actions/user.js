@@ -2,13 +2,15 @@ import axios from 'axios';
 import qs from 'qs';
 
 import {
-  UPDATE_USER,
   LOGIN_START,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   SIGNUP_START,
   SIGNUP_SUCCESS,
   SIGNUP_FAILED,
+  UPDATE_START,
+  UPDATE_SUCCESS,
+  UPDATE_FAILED,
   LOGOUT,
   AUTHENTICATE_USER,
 } from './actionTypes';
@@ -56,11 +58,11 @@ export function createSession(email, password) {
       .then(function (response) {
         console.log(JSON.stringify(response.data));
         localStorage.setItem('token', response.data.data.token);
-        dispatch(loginSuccess(response.data));
+        dispatch(loginSuccess(response.data.data.user));
       })
       .catch(function (error) {
         console.log(error);
-        dispatch(loginFailed());
+        dispatch(loginFailed(error));
       });
   };
 }
@@ -135,7 +137,7 @@ export function fetchUser() {
         dispatch(authenticateUser(response.data.data.user));
       })
       .catch(function (error) {
-        dispatch(loginFailed('none'));
+        dispatch(loginFailed(error));
       });
   };
 }
@@ -157,5 +159,48 @@ export function logoutUser() {
 export function logout() {
   return {
     type: LOGOUT,
+  };
+}
+
+export function updateUser(name, email) {
+  return (dispatch) => {
+    dispatch(startUpdate());
+
+    var config = {
+      method: 'post',
+      url: 'some_url',
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log('reponse: ', response.data);
+        dispatch(updateSuccess(response.data.data.user));
+      })
+      .catch(function (error) {
+        dispatch(updateFailed(error));
+      });
+  };
+}
+
+export function startUpdate() {
+  return {
+    type: UPDATE_START,
+  };
+}
+
+export function updateSuccess(user) {
+  return {
+    type: UPDATE_SUCCESS,
+    user,
+  };
+}
+
+export function updateFailed(error) {
+  return {
+    type: UPDATE_FAILED,
+    error,
   };
 }

@@ -17,7 +17,6 @@ export function fetchPosts() {
     console.log(config.url);
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
         dispatch(updatePosts(response.data.posts));
       })
       .catch(function (error) {

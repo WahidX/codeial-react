@@ -105,6 +105,18 @@ body {
   background: rgb(67, 124, 230);
 }
 
+#profile-page {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding: 20px;
+}
+
+#update-btn {
+  margin: 30px 40px;
+  box-shadow: 0px 0px 10px 0px cornflowerblue;
+}
+
 /* Footer */
 footer {
   margin: 100px 0px 0px 0px;
@@ -112,8 +124,7 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  background-color: rgb(70, 70, 70);
-  color: rgb(2, 2, 2);
+  background-color: rgb(165, 165, 165);
 }
 
 footer * {
