@@ -5,6 +5,7 @@ export const APIurls = {
   createSession: () => `${API_ROOT}/users/create-session`,
   createUser: () => `${API_ROOT}/users/create-user`,
   fetchUser: () => `${API_ROOT}/users/profile`,
+  updateUser: () => `${API_ROOT}/users/`,
   fetchPosts: () => `${API_ROOT}/posts`,
   addPost: () => `${API_ROOT}/posts/create`,
 };

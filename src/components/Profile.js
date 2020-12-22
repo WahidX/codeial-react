@@ -4,10 +4,12 @@ import { Redirect } from 'react-router-dom';
 import { Button, Grid, TextField } from '@material-ui/core';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { updateUser } from '../actions/user';
 
 function Profile(props) {
   const [name, setName] = useState(props.user.user.name);
   const [email, setEmail] = useState(props.user.user.email);
+  let inProgress = props.user.inProgress;
 
   if (!props.user.isLoggedin) {
     return <Redirect to="/login" />;
@@ -28,9 +30,7 @@ function Profile(props) {
 
     if (emailContent.length !== 0 && nameContent.length !== 0) {
       console.log(nameContent, emailContent);
-      // props.dispatch(
-      //   (nameContent, emailContent)
-      // );
+      props.dispatch(updateUser(nameContent, emailContent));
     }
   }
 
@@ -65,7 +65,12 @@ function Profile(props) {
           </Grid>
         </Grid>
       </div>
-      <Button id="update-btn" color="primary" onClick={onSubmit}>
+      <Button
+        disabled={inProgress}
+        id="update-btn"
+        color="primary"
+        onClick={onSubmit}
+      >
         update
       </Button>
     </React.Fragment>

@@ -61,8 +61,8 @@ export function createSession(email, password) {
         dispatch(loginSuccess(response.data.data.user));
       })
       .catch(function (error) {
-        console.log(error);
-        dispatch(loginFailed(error));
+        console.log(error.response.message);
+        dispatch(loginFailed(error.response.message));
       });
   };
 }
@@ -114,8 +114,8 @@ export function createUser(name, email, password, confirm_password) {
         dispatch(signupSuccess(response.data));
       })
       .catch(function (error) {
-        console.log(error);
-        dispatch(signupFailed());
+        console.log(error.response.message);
+        dispatch(signupFailed(error.response.message));
       });
   };
 }
@@ -137,7 +137,7 @@ export function fetchUser() {
         dispatch(authenticateUser(response.data.data.user));
       })
       .catch(function (error) {
-        dispatch(loginFailed(error));
+        dispatch(loginFailed(error.response.message));
       });
   };
 }
@@ -166,12 +166,19 @@ export function updateUser(name, email) {
   return (dispatch) => {
     dispatch(startUpdate());
 
+    let data = qs.stringify({
+      email: email,
+      name: name,
+    });
+
     var config = {
-      method: 'post',
-      url: 'some_url',
+      method: 'patch',
+      url: APIurls.updateUser(),
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
+      data: data,
     };
 
     axios(config)
@@ -180,7 +187,7 @@ export function updateUser(name, email) {
         dispatch(updateSuccess(response.data.data.user));
       })
       .catch(function (error) {
-        dispatch(updateFailed(error));
+        dispatch(updateFailed(error.response.message));
       });
   };
 }
