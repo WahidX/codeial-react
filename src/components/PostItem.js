@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
   Card,
   CardContent,
   CardActions,
   Typography,
-  Button,
   IconButton,
 } from '@material-ui/core';
 
@@ -13,6 +13,7 @@ import ExpandLessTwoToneIcon from '@material-ui/icons/ExpandLessTwoTone';
 import ArrowUpwardTwoToneIcon from '@material-ui/icons/ArrowUpwardTwoTone';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ShareIcon from '@material-ui/icons/Share';
+import { likeToggle, deletePost } from '../actions/posts';
 
 const useStyles = makeStyles({
   root: {
@@ -41,22 +42,20 @@ const useStyles = makeStyles({
 function PostItem(props) {
   // will come from store
   const [like, setLike] = useState(false);
-  const [deleted, setDeleted] = useState(false);
-  let isloading = false;
+  const authorized = props.user.user._id === props.post.user._id;
+
+  let { isloading } = props.post_store.postInProgress;
 
   const classes = useStyles();
   let post = props.post;
 
   function handleLikeToggle() {
+    likeToggle(props.post._id);
     setLike(!like);
   }
 
   function handleDelete() {
-    setDeleted(true);
-  }
-
-  if (deleted) {
-    return null;
+    props.dispatch(deletePost(props.post._id));
   }
 
   return (
@@ -89,13 +88,22 @@ function PostItem(props) {
           <IconButton aria-label="share post" disabled={isloading}>
             <ShareIcon />
           </IconButton>
-          <IconButton aria-label="delete post" disabled={isloading}>
-            <DeleteIcon onClick={handleDelete} color="secondary" />
-          </IconButton>
+          {authorized && (
+            <IconButton aria-label="delete post" disabled={isloading}>
+              <DeleteIcon onClick={handleDelete} color="secondary" />
+            </IconButton>
+          )}
         </div>
       </CardActions>
     </Card>
   );
 }
 
-export default PostItem;
+function mapStateToProps(state) {
+  return {
+    post_store: state.posts,
+    user: state.user,
+  };
+}
+
+export default connect(mapStateToProps)(PostItem);

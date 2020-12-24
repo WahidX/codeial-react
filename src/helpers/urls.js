@@ -8,4 +8,6 @@ export const APIurls = {
   updateUser: () => `${API_ROOT}/users/`,
   fetchPosts: () => `${API_ROOT}/posts`,
   addPost: () => `${API_ROOT}/posts/create`,
+  likeToggle: (id) => `${API_ROOT}/likes/toggle/?id=${id}&type=Post`,
+  deletePost: (id) => `${API_ROOT}/posts/${id}`,
 };

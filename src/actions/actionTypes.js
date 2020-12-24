@@ -22,3 +22,13 @@ export const UPDATE_POSTS = 'UPDATE_POSTS';
 export const START_POSTING = 'START_POSTING';
 export const POSTING_FAILED = 'POSTING_FAILED';
 export const POSTING_SUCCESS = 'POSTING_SUCCESS';
+
+// Likes
+export const START_LIKE = 'START_LIKE';
+export const LIKE_SUCCESS = 'LIKE_SUCCESS';
+export const LIKE_FAILED = 'LIKE_FAILED';
+
+// Delete
+export const START_DELETE_POST = 'START_DELETE_POST';
+export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
+export const DELETE_POST_FAILED = 'DELETE_POST_FAILED';

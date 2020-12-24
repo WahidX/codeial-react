@@ -6,6 +6,11 @@ import {
   START_POSTING,
   POSTING_FAILED,
   POSTING_SUCCESS,
+  START_LIKE,
+  LIKE_FAILED,
+  LIKE_SUCCESS,
+  START_DELETE_POST,
+  DELETE_POST_SUCCESS,
 } from './actionTypes';
 
 export function fetchPosts() {
@@ -75,5 +80,94 @@ export function updatePosts(posts) {
   return {
     type: UPDATE_POSTS,
     posts,
+  };
+}
+
+// Like Post
+
+export function likeToggle(postId) {
+  var config = {
+    method: 'post',
+    url: APIurls.likeToggle(postId),
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    },
+  };
+
+  axios(config)
+    .then(function (response) {
+      if (response.status === 200) {
+        console.log('success');
+      }
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+}
+
+export function likeStart(postId) {
+  return {
+    type: START_LIKE,
+    postId,
+  };
+}
+
+export function likeSuccess(postId) {
+  return {
+    type: LIKE_SUCCESS,
+    postId,
+  };
+}
+
+export function likeFailed(postId) {
+  return {
+    type: LIKE_FAILED,
+    postId,
+  };
+}
+
+// Delete
+export function deletePost(postId) {
+  return (dispatch) => {
+    dispatch(startDelete(postId));
+    var config = {
+      method: 'delete',
+      url: APIurls.deletePost(postId),
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        dispatch(deleteSuccess(postId));
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        dispatch(deleteFailed(postId, error));
+        console.log(error);
+      });
+  };
+}
+
+export function startDelete(postId) {
+  return {
+    type: START_DELETE_POST,
+    postId,
+  };
+}
+
+export function deleteSuccess(postId) {
+  return {
+    type: DELETE_POST_SUCCESS,
+    postId,
+  };
+}
+
+export function deleteFailed(postId, error) {
+  return {
+    type: DELETE_POST_SUCCESS,
+    postId,
+    error,
   };
 }
