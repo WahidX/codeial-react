@@ -6,6 +6,9 @@ import {
   START_DELETE_POST,
   DELETE_POST_SUCCESS,
   DELETE_POST_FAILED,
+  START_LIKE,
+  LIKE_SUCCESS,
+  LIKE_FAILED,
 } from '../actions/actionTypes';
 
 const initialPost = {
@@ -57,6 +60,31 @@ export default function posts(state = initialPost, action) {
         ...state,
         postInProgress: false,
         error: action.error,
+      };
+
+    case START_LIKE:
+      return {
+        ...state,
+        postInProgress: true,
+      };
+    case LIKE_SUCCESS:
+      for (let i = 0; i < state.posts.length; i++) {
+        if (state.posts[i]._id === action.postId) {
+          let index = state.posts[i].likes.indexOf(action.userId);
+          index === -1
+            ? state.posts[i].likes.push(action.userId)
+            : state.posts[i].likes.splice(index, 1);
+        }
+      }
+      return {
+        ...state,
+        postInProgress: false,
+      };
+    case LIKE_FAILED:
+      return {
+        ...state,
+        error: action.error,
+        postInProgress: false,
       };
     default:
       return state;

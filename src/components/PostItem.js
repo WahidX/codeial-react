@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {
   Card,
@@ -40,18 +40,27 @@ const useStyles = makeStyles({
 });
 
 function PostItem(props) {
+  const classes = useStyles();
+
   // will come from store
-  const [like, setLike] = useState(false);
   const authorized = props.user.user._id === props.post.user._id;
+
+  let like;
+  if (props.user.isLoggedin) {
+    like = props.post.likes.indexOf(props.user.user._id) !== -1;
+  }
+  let likeCount = props.post.likes.length;
 
   let { isloading } = props.post_store.postInProgress;
 
-  const classes = useStyles();
   let post = props.post;
 
   function handleLikeToggle() {
-    likeToggle(props.post._id);
-    setLike(!like);
+    if (props.user.isLoggedin) {
+      props.dispatch(likeToggle(props.post._id, props.user.user._id));
+    } else {
+      console.log('Pls Log in');
+    }
   }
 
   function handleDelete() {
@@ -73,6 +82,7 @@ function PostItem(props) {
         {!like && (
           <IconButton disabled={isloading}>
             <ExpandLessTwoToneIcon onClick={handleLikeToggle} color="primary" />
+            <p>{likeCount}</p>
           </IconButton>
         )}
         {like && (
@@ -80,7 +90,8 @@ function PostItem(props) {
             <ArrowUpwardTwoToneIcon
               onClick={handleLikeToggle}
               color="secondary"
-            />
+            />{' '}
+            <p>{likeCount}</p>
           </IconButton>
         )}
 

@@ -19,27 +19,26 @@ function PostList(props) {
   const classes = useStyles();
 
   // TODO: should be handled via fetchingInprogress
-  if (posts.length === 0) {
-    return (
-      <div className={classes.root + ' postlist-container'}>
-        <Skeleton />
-        <Skeleton animation={false} />
-        <Skeleton animation="wave" />
-      </div>
-    );
-  } else {
-    return (
-      <div className="posts-container">
-        <PostForm />
-        <div className="postlist-container">
-          {posts.map((post) => (
-            <PostItem key={post._id} post={post} />
-          ))}
+  return (
+    <div className="posts-container">
+      <PostForm />
+
+      {posts.length === 0 && (
+        <div className={classes.root + ' postlist-container'}>
+          <Skeleton />
+          <Skeleton animation={false} />
+          <Skeleton animation="wave" />
         </div>
+      )}
+      <div className="postlist-container">
+        {posts.map((post) => (
+          <PostItem key={post._id} post={post} />
+        ))}
       </div>
-    );
-  }
+    </div>
+  );
 }
+
 function mapStateToProps(state) {
   return {
     posts: state.posts.posts,

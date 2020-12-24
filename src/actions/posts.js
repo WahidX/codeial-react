@@ -85,51 +85,53 @@ export function updatePosts(posts) {
 
 // Like Post
 
-export function likeToggle(postId) {
-  var config = {
-    method: 'post',
-    url: APIurls.likeToggle(postId),
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
-  };
+export function likeToggle(postId, userId) {
+  return (dispatch) => {
+    dispatch(likeStart(postId));
+    var config = {
+      method: 'post',
+      url: APIurls.likeToggle(postId),
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    };
 
-  axios(config)
-    .then(function (response) {
-      if (response.status === 200) {
-        console.log('success');
-      }
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
+    axios(config)
+      .then(function (response) {
+        dispatch(likeSuccess(postId, userId));
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        dispatch(likeFailed(postId));
+        console.error(error);
+      });
+  };
 }
 
-export function likeStart(postId) {
+export function likeStart() {
   return {
     type: START_LIKE,
-    postId,
   };
 }
 
-export function likeSuccess(postId) {
+export function likeSuccess(postId, userId) {
   return {
     type: LIKE_SUCCESS,
     postId,
+    userId,
   };
 }
 
-export function likeFailed(postId) {
+export function likeFailed() {
   return {
     type: LIKE_FAILED,
-    postId,
   };
 }
 
 // Delete
 export function deletePost(postId) {
   return (dispatch) => {
-    dispatch(startDelete(postId));
+    dispatch(startDelete());
     var config = {
       method: 'delete',
       url: APIurls.deletePost(postId),
@@ -144,16 +146,15 @@ export function deletePost(postId) {
         console.log(JSON.stringify(response.data));
       })
       .catch(function (error) {
-        dispatch(deleteFailed(postId, error));
+        dispatch(deleteFailed(error));
         console.log(error);
       });
   };
 }
 
-export function startDelete(postId) {
+export function startDelete() {
   return {
     type: START_DELETE_POST,
-    postId,
   };
 }
 
@@ -164,10 +165,9 @@ export function deleteSuccess(postId) {
   };
 }
 
-export function deleteFailed(postId, error) {
+export function deleteFailed(error) {
   return {
     type: DELETE_POST_SUCCESS,
-    postId,
     error,
   };
 }
