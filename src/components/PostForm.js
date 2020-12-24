@@ -20,6 +20,10 @@ function PostForm(props) {
     }
   }
 
+  if (!props.user.isLoggedin) {
+    return null;
+  }
+
   return (
     <div className="create-post">
       <textarea
@@ -45,6 +49,7 @@ function PostForm(props) {
 function mapStateToProps(state) {
   return {
     posting: state.posts.posting,
+    user: state.user,
   };
 }
 

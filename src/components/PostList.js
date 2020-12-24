@@ -7,7 +7,7 @@ import { PostItem, PostForm } from './';
 
 const useStyles = makeStyles({
   root: {
-    width: '70%',
+    width: '100%',
     margin: 'auto',
     marginTop: 100,
   },
@@ -29,12 +29,12 @@ function PostList(props) {
     );
   } else {
     return (
-      <React.Fragment>
+      <div className="postlist-container">
         <PostForm />
         {posts.map((post) => (
           <PostItem key={post._id} post={post} />
         ))}
-      </React.Fragment>
+      </div>
     );
   }
 }
