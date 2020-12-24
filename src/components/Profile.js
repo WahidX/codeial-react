@@ -5,6 +5,7 @@ import { Button, Grid, TextField } from '@material-ui/core';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { updateUser } from '../actions/user';
+import { FriendList, PostList } from '.';
 
 function Profile(props) {
   const [name, setName] = useState(props.user.user.name);
@@ -36,43 +37,58 @@ function Profile(props) {
 
   return (
     <React.Fragment>
-      <div id="profile-page">
-        <Grid container spacing={1} alignItems="flex-end">
-          <Grid item>
-            <AccountCircleIcon />
-          </Grid>
-          <Grid item>
-            <TextField
-              id="name-field"
-              label="name"
-              value={name}
-              onChange={onChangeName}
-            />
-          </Grid>
-        </Grid>
+      <div id="profile-page-container">
+        <div id="cover-container">
+          <img className="cover-img" />
+        </div>
 
-        <Grid container spacing={1} alignItems="flex-end">
-          <Grid item>
-            <AlternateEmailIcon />
+        <div className="profile-update-container">
+          <img
+            className="user-dp"
+            src="https://cdn3.iconfinder.com/data/icons/users-6/100/2-256.png"
+          />
+          <Grid container spacing={1} alignItems="flex-end">
+            <Grid item>
+              <AccountCircleIcon />
+            </Grid>
+            <Grid item>
+              <TextField
+                id="name-field"
+                label="name"
+                value={name}
+                onChange={onChangeName}
+              />
+            </Grid>
           </Grid>
-          <Grid item>
-            <TextField
-              id="email-field"
-              label="email"
-              value={email}
-              onChange={onChangeEmail}
-            />
+
+          <Grid container spacing={1} alignItems="flex-end">
+            <Grid item>
+              <AlternateEmailIcon />
+            </Grid>
+            <Grid item>
+              <TextField
+                id="email-field"
+                label="email"
+                value={email}
+                onChange={onChangeEmail}
+              />
+            </Grid>
           </Grid>
-        </Grid>
+          <Button
+            disabled={inProgress}
+            id="update-btn"
+            color="primary"
+            onClick={onSubmit}
+          >
+            update
+          </Button>
+        </div>
       </div>
-      <Button
-        disabled={inProgress}
-        id="update-btn"
-        color="primary"
-        onClick={onSubmit}
-      >
-        update
-      </Button>
+
+      <div className="home-container">
+        <PostList pageFor="" />
+        <FriendList />
+      </div>
     </React.Fragment>
   );
 }

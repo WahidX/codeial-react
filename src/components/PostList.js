@@ -21,7 +21,7 @@ function PostList(props) {
   // TODO: should be handled via fetchingInprogress
   if (posts.length === 0) {
     return (
-      <div className={classes.root}>
+      <div className={classes.root + ' postlist-container'}>
         <Skeleton />
         <Skeleton animation={false} />
         <Skeleton animation="wave" />
@@ -29,11 +29,13 @@ function PostList(props) {
     );
   } else {
     return (
-      <div className="postlist-container">
+      <div className="posts-container">
         <PostForm />
-        {posts.map((post) => (
-          <PostItem key={post._id} post={post} />
-        ))}
+        <div className="postlist-container">
+          {posts.map((post) => (
+            <PostItem key={post._id} post={post} />
+          ))}
+        </div>
       </div>
     );
   }
