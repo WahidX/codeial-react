@@ -2,6 +2,7 @@
 export const LOGIN_START = 'LOGIN_START';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
+
 // Signups
 export const SIGNUP_START = 'SIGNUP_START';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
@@ -15,6 +16,14 @@ export const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
 export const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
 export const LOGOUT = 'LOGOUT';
 export const CLEAR_AUTH_STATE = 'CLEAR_AUTH_STATE';
+
+// FriendShips
+export const GET_FRIENDS = 'GET_FRIENDS';
+export const ADD_REMOVE_FOLLOWER = 'ADD_REMOVE_FOLLOWER';
+
+export const START_GET_FRIEND = 'START_GET_FRIEND';
+export const GET_FRIEND_SUCCESS = 'GET_FRIEND_SUCCESS';
+export const GET_FRIEND_FAILED = 'GET_FRIEND_FAILED';
 
 // Posts
 export const UPDATE_POSTS = 'UPDATE_POSTS';

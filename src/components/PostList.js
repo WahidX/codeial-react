@@ -16,12 +16,19 @@ const useStyles = makeStyles({
 // Main Component Function
 function PostList(props) {
   let posts = props.posts;
+  let inProgress = props.user.inProgress;
   const classes = useStyles();
 
   // TODO: should be handled via fetchingInprogress
   return (
     <div className="posts-container">
       <PostForm />
+
+      {posts.length === 0 && !inProgress && (
+        <div className={classes.root + ' postlist-container'}>
+          There's no post
+        </div>
+      )}
 
       {posts.length === 0 && (
         <div className={classes.root + ' postlist-container'}>
@@ -42,6 +49,7 @@ function PostList(props) {
 function mapStateToProps(state) {
   return {
     posts: state.posts.posts,
+    user: state.user,
   };
 }
 

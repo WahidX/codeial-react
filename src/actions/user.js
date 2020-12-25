@@ -15,6 +15,7 @@ import {
   AUTHENTICATE_USER,
 } from './actionTypes';
 import { APIurls } from '../helpers/urls';
+import { fetchFriends } from './friends';
 
 export function startLogin() {
   return {
@@ -59,6 +60,7 @@ export function createSession(email, password) {
         console.log(JSON.stringify(response.data));
         localStorage.setItem('token', response.data.data.token);
         dispatch(loginSuccess(response.data.data.user));
+        dispatch(fetchFriends());
       })
       .catch(function (error) {
         console.log(error.response.message);
