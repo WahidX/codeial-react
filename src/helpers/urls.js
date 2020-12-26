@@ -1,4 +1,5 @@
 export const SERVER_ROOT = 'https://codeialx.herokuapp.com';
+// export const SERVER_ROOT = 'https://localhost:8000';
 const API_ROOT = `${SERVER_ROOT}/api/v1`;
 
 export const APIurls = {
@@ -15,6 +16,7 @@ export const APIurls = {
   // friend
   fetchFriends: () => `${API_ROOT}/friends/`,
   addRemove: (id) => `${API_ROOT}/friends/add-remove?id=${id}`,
+  //searching
+  fetchSearchResults: (key, type) =>
+    `${API_ROOT}/search/?key=${key}&type=${type}`,
 };
-// http://localhost:8000/api/v1/friends/
-// http://localhost:8000/api/v1/friends/add-remove?id=5fe4f1a246c58811201287cb

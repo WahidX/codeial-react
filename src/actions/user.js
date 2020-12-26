@@ -63,8 +63,8 @@ export function createSession(email, password) {
         dispatch(fetchFriends());
       })
       .catch(function (error) {
-        console.log(error.response.message);
-        dispatch(loginFailed(error.response.message));
+        console.log(error.message);
+        dispatch(loginFailed(error.message));
       });
   };
 }
@@ -116,8 +116,8 @@ export function createUser(name, email, password, confirm_password) {
         dispatch(signupSuccess(response.data));
       })
       .catch(function (error) {
-        console.log(error.response.message);
-        dispatch(signupFailed(error.response.message));
+        console.log(error.message);
+        dispatch(signupFailed(error.message));
       });
   };
 }
@@ -139,7 +139,7 @@ export function fetchUser() {
         dispatch(authenticateUser(response.data.data.user));
       })
       .catch(function (error) {
-        dispatch(loginFailed(error.response.message));
+        dispatch(loginFailed(error.message));
       });
   };
 }
@@ -189,7 +189,7 @@ export function updateUser(name, email) {
         dispatch(updateSuccess(response.data.data.user));
       })
       .catch(function (error) {
-        dispatch(updateFailed(error.response.message));
+        dispatch(updateFailed(error.message));
       });
   };
 }

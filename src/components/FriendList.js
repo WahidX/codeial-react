@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     minWidth: 250,
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: 'cornflowerblue',
     borderRadius: '3%',
     boxShadow: '0px 0px 10px 0px cornflowerblue',
   },
@@ -42,7 +42,7 @@ function FriendList(props) {
 
   return (
     <div className="friendlist-container">
-      <p>Followers</p>
+      <p>Following</p>
 
       {friends.length === 0 ? (
         <small>Follow some coders</small>
