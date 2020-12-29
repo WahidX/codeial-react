@@ -9,6 +9,7 @@ import Signup from './Signup';
 import Profile from './Profile';
 import Home from './Home';
 import FriendList from './FriendList';
+import Page404 from './Page404';
 
 export {
   App,
@@ -21,5 +22,6 @@ export {
   Login,
   Signup,
   Profile,
+  Page404,
   Footer,
 };

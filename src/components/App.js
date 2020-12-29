@@ -10,7 +10,15 @@ import {
 import { fetchUser } from '../actions/user';
 import { fetchPosts } from '../actions/posts';
 
-import { ButtonAppBar, Home, Signup, Login, Profile, Footer } from './';
+import {
+  ButtonAppBar,
+  Home,
+  Signup,
+  Login,
+  Profile,
+  Page404,
+  Footer,
+} from './';
 
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedin, path, component: Component } = privateRouteProps;
@@ -46,7 +54,7 @@ class App extends React.Component {
             component={Profile}
             isLoggedin={isLoggedin}
           />
-          {/* <Route component={Page404} /> */}
+          <Route component={Page404} />
         </Switch>
         <Footer />
       </Router>
