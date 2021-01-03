@@ -10,6 +10,7 @@ import Profile from './Profile';
 import Home from './Home';
 import FriendList from './FriendList';
 import CustomizedSnackbars from './SnackBar';
+import Settings from './Settings';
 import Page404 from './Page404';
 
 export {
@@ -23,6 +24,7 @@ export {
   Login,
   Signup,
   Profile,
+  Settings,
   CustomizedSnackbars,
   Page404,
   Footer,

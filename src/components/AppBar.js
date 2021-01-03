@@ -5,19 +5,21 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import { Button } from '@material-ui/core';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+
 import { connect } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 import { logoutUser } from '../actions/user';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -28,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: 'none',
+    textDecoration: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -88,12 +91,6 @@ function ButtonAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  let isLoggedin = props.user.isLoggedin;
-
-  let logoutHandle = () => {
-    props.dispatch(logoutUser());
-  };
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -114,6 +111,12 @@ function ButtonAppBar(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  let logoutHandle = () => {
+    props.dispatch(logoutUser());
+  };
+
+  let isLoggedin = props.user.isLoggedin;
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -126,9 +129,11 @@ function ButtonAppBar(props) {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        <Link to="profile">Profile</Link>
+        <Link to="/profile">Profile</Link>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/settings">Settings</Link>
+      </MenuItem>
       <MenuItem
         onClick={() => {
           handleMenuClose();
@@ -185,24 +190,19 @@ function ButtonAppBar(props) {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          {/* dummy for padding */}
           <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
           >
-            {/* <MenuIcon /> */}
+            <MenuIcon />
           </IconButton>
-
-          {/* Home App name */}
-          <Link to="/">
-            <Typography className={classes.title} variant="h6" noWrap>
-              CodeialX
-            </Typography>
-          </Link>
-
-          {/* Search */}
+          <Typography className={classes.title} variant="h6" noWrap>
+            <Link to="/" style={{ color: 'white' }}>
+              MERN Starter
+            </Link>
+          </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -216,16 +216,24 @@ function ButtonAppBar(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-
           <div className={classes.grow} />
-
-          {isLoggedin && (
-            <div className={classes.sectionDesktop}>
-              <Button color="inherit">
-                <Link to="/profile">ALL Users</Link>
+          {!isLoggedin && (
+            <React.Fragment>
+              <Button color="primary">
+                <Link to="/login" style={{ color: 'white' }}>
+                  Login
+                </Link>
               </Button>
 
-              {/* notifications icons */}
+              <Button color="primary">
+                <Link to="/signup" style={{ color: 'white' }}>
+                  Signup
+                </Link>
+              </Button>
+            </React.Fragment>
+          )}
+          {isLoggedin && (
+            <div className={classes.sectionDesktop}>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
@@ -235,11 +243,10 @@ function ButtonAppBar(props) {
                 aria-label="show 17 new notifications"
                 color="inherit"
               >
-                <Badge badgeContent={17} color="secondary">
+                <Badge badgeContent={10} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -250,30 +257,20 @@ function ButtonAppBar(props) {
               >
                 <AccountCircle />
               </IconButton>
-
-              <div className={classes.sectionMobile}>
-                <IconButton
-                  aria-label="show more"
-                  aria-controls={mobileMenuId}
-                  aria-haspopup="true"
-                  onClick={handleMobileMenuOpen}
-                  color="inherit"
-                >
-                  <MoreIcon />
-                </IconButton>
-              </div>
             </div>
           )}
 
-          {!isLoggedin && (
-            <div className={classes.sectionDesktop}>
-              <Link to="Login">
-                <Button color="inherit">Login</Button>
-              </Link>
-
-              <Link to="Signup">
-                <Button color="inherit">Signup</Button>
-              </Link>
+          {isLoggedin && (
+            <div className={classes.sectionMobile}>
+              <IconButton
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
+                <MoreIcon />
+              </IconButton>
             </div>
           )}
         </Toolbar>

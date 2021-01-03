@@ -17,6 +17,7 @@ import {
   Login,
   Profile,
   CustomizedSnackbars,
+  Settings,
   Page404,
   Footer,
 } from './';
@@ -54,6 +55,12 @@ class App extends React.Component {
             exact
             path="/profile"
             component={Profile}
+            isLoggedin={isLoggedin}
+          />
+          <PrivateRoute
+            exact
+            path="/settings"
+            component={Settings}
             isLoggedin={isLoggedin}
           />
           <Route component={Page404} />
