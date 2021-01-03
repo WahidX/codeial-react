@@ -1,39 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { updateUser } from '../actions/user';
+
 import { FriendList, PostList } from '.';
 
 function Profile(props) {
-  const [name, setName] = useState(props.user.user.name);
-  const [email, setEmail] = useState(props.user.user.email);
-  let inProgress = props.user.inProgress;
-
   if (!props.user.isLoggedin) {
     return <Redirect to="/login" />;
   }
 
-  let onChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  let onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  function onSubmit(e) {
-    e.preventDefault();
-    let emailContent = email.trim();
-    let nameContent = name.trim();
-
-    if (emailContent.length !== 0 && nameContent.length !== 0) {
-      console.log(nameContent, emailContent);
-      props.dispatch(updateUser(nameContent, emailContent));
-    }
-  }
+  let { name, email, bio, avatar, emailAuthenticated } = props.user.user;
 
   return (
     <React.Fragment>
@@ -51,14 +30,7 @@ function Profile(props) {
             <Grid item>
               <AccountCircleIcon />
             </Grid>
-            <Grid item>
-              <TextField
-                id="name-field"
-                label="name"
-                value={name}
-                onChange={onChangeName}
-              />
-            </Grid>
+            <Grid item>{name}</Grid>
           </Grid>
 
           <Grid container spacing={1} alignItems="flex-end">
@@ -66,22 +38,15 @@ function Profile(props) {
               <AlternateEmailIcon />
             </Grid>
             <Grid item>
-              <TextField
-                id="email-field"
-                label="email"
-                value={email}
-                onChange={onChangeEmail}
-              />
+              {email}
+              <br />
+              <small>{!emailAuthenticated && 'email not confirmed'} </small>
             </Grid>
           </Grid>
-          <Button
-            disabled={inProgress}
-            id="update-btn"
-            color="primary"
-            onClick={onSubmit}
-          >
-            update
-          </Button>
+
+          <Grid container spacing={1} alignItems="flex-end">
+            <Grid item>{bio}</Grid>
+          </Grid>
         </div>
       </div>
 

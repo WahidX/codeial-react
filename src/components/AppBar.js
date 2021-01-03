@@ -200,7 +200,7 @@ function ButtonAppBar(props) {
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
             <Link to="/" style={{ color: 'white' }}>
-              MERN Starter
+              CodeialX
             </Link>
           </Typography>
           <div className={classes.search}>
