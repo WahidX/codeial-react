@@ -6,6 +6,8 @@ import {
   GET_FRIEND_FAILED,
 } from './actionTypes';
 
+import { setSnackBar } from './snackbar';
+
 export function fetchFriends() {
   return (dispatch) => {
     dispatch(startGetFriend());
@@ -20,11 +22,11 @@ export function fetchFriends() {
     axios(config)
       .then(function (response) {
         dispatch(GetFriendSuccess(response.data.friends));
-        console.log(JSON.stringify(response.data));
+        dispatch(setSnackBar('success', 'Friends are retrieved', 3000));
       })
       .catch(function (error) {
         dispatch(getFriendFailed(error));
-        console.log(error);
+        dispatch(setSnackBar('error', "Couldn't retrieve friends", 3000));
       });
   };
 }

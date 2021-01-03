@@ -16,6 +16,7 @@ import {
   Signup,
   Login,
   Profile,
+  CustomizedSnackbars,
   Page404,
   Footer,
 } from './';
@@ -44,6 +45,7 @@ class App extends React.Component {
     return (
       <Router>
         <ButtonAppBar />
+        <CustomizedSnackbars />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/signup" component={Signup} />

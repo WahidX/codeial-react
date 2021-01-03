@@ -47,3 +47,7 @@ export const START_SEARCH = 'START_SEARCH';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_CLEAR = 'SEARCH_CLEAR';
+
+// Snackbar
+export const SET_SNACKBAR = 'SET_SNACKBAR';
+export const CLEAR_SNACKBAR = 'CLEAR_SNACKBAR';

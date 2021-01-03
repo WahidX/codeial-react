@@ -16,6 +16,7 @@ import {
 } from './actionTypes';
 import { APIurls } from '../helpers/urls';
 import { fetchFriends } from './friends';
+import { setSnackBar } from './snackbar';
 
 export function startLogin() {
   return {
@@ -61,10 +62,12 @@ export function createSession(email, password) {
         localStorage.setItem('token', response.data.data.token);
         dispatch(loginSuccess(response.data.data.user));
         dispatch(fetchFriends());
+        dispatch(setSnackBar('success', 'Logged in successfully', 3000));
       })
       .catch(function (error) {
         console.log(error.message);
         dispatch(loginFailed(error.message));
+        dispatch(setSnackBar('error', 'Logging in Failed', 3000));
       });
   };
 }
@@ -114,6 +117,7 @@ export function createUser(name, email, password, confirm_password) {
         console.log(JSON.stringify(response.data));
         localStorage.setItem('token', response.data.data.token);
         dispatch(signupSuccess(response.data));
+        dispatch(setSnackBar('success', 'User created successfully', 3000));
       })
       .catch(function (error) {
         console.log(error.message);
@@ -137,9 +141,12 @@ export function fetchUser() {
       .then(function (response) {
         console.log('reponse: ', response.data);
         dispatch(authenticateUser(response.data.data.user));
+        dispatch(fetchFriends());
+        dispatch(setSnackBar('success', 'User session restored', 3000));
       })
       .catch(function (error) {
         dispatch(loginFailed(error.message));
+        dispatch(setSnackBar('error', 'Please Log in', 3000));
       });
   };
 }
@@ -187,9 +194,11 @@ export function updateUser(name, email) {
       .then(function (response) {
         console.log('reponse: ', response.data);
         dispatch(updateSuccess(response.data.data.user));
+        dispatch(setSnackBar('success', 'User updated successfully', 3000));
       })
       .catch(function (error) {
         dispatch(updateFailed(error.message));
+        dispatch(setSnackBar('error', 'Updation failed', 3000));
       });
   };
 }

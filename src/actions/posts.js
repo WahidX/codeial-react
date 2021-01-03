@@ -12,6 +12,7 @@ import {
   START_DELETE_POST,
   DELETE_POST_SUCCESS,
 } from './actionTypes';
+import { setSnackBar } from './snackbar';
 
 export function fetchPosts() {
   return (dispatch) => {
@@ -23,9 +24,11 @@ export function fetchPosts() {
     axios(config)
       .then(function (response) {
         dispatch(updatePosts(response.data.posts));
+        dispatch(setSnackBar('success', 'Posts updated', 3000));
       })
       .catch(function (error) {
         console.log(error);
+        dispatch(setSnackBar('error', error.message, 3000));
       });
   };
 }
@@ -48,10 +51,12 @@ export function addPost(content) {
     axios(config)
       .then(function (response) {
         dispatch(postingSuccess(response.data.data.post));
+        dispatch(setSnackBar('success', 'New Post added successfully', 3000));
       })
       .catch(function (error) {
         console.log(error);
         dispatch(postingFailed(error));
+        dispatch(setSnackBar('error', 'New Post add failed', 3000));
       });
   };
 }
@@ -103,6 +108,9 @@ export function likeToggle(postId, userId) {
       })
       .catch(function (error) {
         dispatch(likeFailed(postId));
+        dispatch(
+          setSnackBar('error', 'Network Error while trying to like', 3000)
+        );
         console.error(error);
       });
   };
@@ -143,11 +151,13 @@ export function deletePost(postId) {
     axios(config)
       .then(function (response) {
         dispatch(deleteSuccess(postId));
-        console.log(JSON.stringify(response.data));
+        dispatch(setSnackBar('success', 'Post deleted successfully', 3000));
       })
       .catch(function (error) {
         dispatch(deleteFailed(error));
-        console.log(error);
+        dispatch(
+          setSnackBar('success', 'Network Error while deleting the post', 3000)
+        );
       });
   };
 }
