@@ -4,6 +4,7 @@ import {
   START_GET_FRIEND,
   GET_FRIEND_SUCCESS,
   GET_FRIEND_FAILED,
+  CLEAR_FRIENDS,
 } from './actionTypes';
 
 import { setSnackBar } from './snackbar';
@@ -22,7 +23,6 @@ export function fetchFriends() {
     axios(config)
       .then(function (response) {
         dispatch(GetFriendSuccess(response.data.friends));
-        dispatch(setSnackBar('success', 'Friends are retrieved', 3000));
       })
       .catch(function (error) {
         dispatch(getFriendFailed(error));
@@ -48,5 +48,11 @@ export function getFriendFailed(error) {
   return {
     type: GET_FRIEND_FAILED,
     error,
+  };
+}
+
+export function clearFriends() {
+  return {
+    type: CLEAR_FRIENDS,
   };
 }

@@ -2,6 +2,7 @@ import {
   START_GET_FRIEND,
   GET_FRIEND_SUCCESS,
   GET_FRIEND_FAILED,
+  CLEAR_FRIENDS,
 } from '../actions/actionTypes';
 
 const initialFriends = {
@@ -28,6 +29,11 @@ export default function friends(state = initialFriends, action) {
         ...state,
         loading: false,
         error: action.error,
+      };
+    case CLEAR_FRIENDS:
+      return {
+        ...state,
+        friends: [],
       };
     default:
       return state;

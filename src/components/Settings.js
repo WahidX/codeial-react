@@ -18,7 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { setSnackBar } from '../actions/snackbar';
-// import { updateUser, changePassword } from '../actions/user';
+import { updateUser, changePassword } from '../actions/user';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,15 +100,16 @@ function Settings(props) {
     }
     console.log('pass: ', password);
 
-    // props.dispatch(
-    //   updateUser(
-    //     name,
-    //     email,
-    //     bio,
-    //     contact,
-    //     password
-    //   )
-    // );
+    props.dispatch(
+      updateUser(
+        name,
+        email,
+        bio,
+        '', //avatar
+        // contact,
+        password
+      )
+    );
 
     handleDialogClose();
   };
@@ -132,7 +133,7 @@ function Settings(props) {
       return;
     }
 
-    // props.dispatch(changePassword(oldPassword, newPassword, confirmPassword));
+    props.dispatch(changePassword(oldPassword, newPassword, confirmPassword));
   };
 
   let PasswordConfirmDialog = () => {

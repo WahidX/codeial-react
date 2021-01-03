@@ -13,9 +13,12 @@ import {
   UPDATE_FAILED,
   LOGOUT,
   AUTHENTICATE_USER,
+  CHANGE_PASSWORD_START,
+  CHANGE_PASSWORD_SUCCESS,
+  CHANGE_PASSWORD_FAILED,
 } from './actionTypes';
 import { APIurls } from '../helpers/urls';
-import { fetchFriends } from './friends';
+import { fetchFriends, clearFriends } from './friends';
 import { setSnackBar } from './snackbar';
 
 export function startLogin() {
@@ -161,6 +164,7 @@ export function authenticateUser(user) {
 export function logoutUser() {
   return (dispatch) => {
     localStorage.removeItem('token');
+    dispatch(clearFriends());
     dispatch(logout());
   };
 }
@@ -171,13 +175,16 @@ export function logout() {
   };
 }
 
-export function updateUser(name, email) {
+export function updateUser(name, email, bio, avatar, password) {
   return (dispatch) => {
     dispatch(startUpdate());
 
     let data = qs.stringify({
       email: email,
       name: name,
+      bio: bio,
+      avatar: avatar,
+      password: password,
     });
 
     var config = {
@@ -187,13 +194,13 @@ export function updateUser(name, email) {
         Authorization: 'Bearer ' + localStorage.getItem('token'),
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      data: data,
+      data,
     };
 
     axios(config)
       .then(function (response) {
         console.log('reponse: ', response.data);
-        dispatch(updateSuccess(response.data.data.user));
+        dispatch(updateSuccess(response.data.user));
         dispatch(setSnackBar('success', 'User updated successfully', 3000));
       })
       .catch(function (error) {
@@ -219,6 +226,61 @@ export function updateSuccess(user) {
 export function updateFailed(error) {
   return {
     type: UPDATE_FAILED,
+    error,
+  };
+}
+
+// Password Change actions
+export function changePassword(oldPassword, newPassword, confirmPassword) {
+  return (dispatch) => {
+    dispatch(startPasswordChange());
+
+    var data = qs.stringify({
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    });
+
+    var config = {
+      method: 'patch',
+      url: APIurls.changePassword(),
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log('reponse: ', response.data);
+        dispatch(passwordChangeSuccess(response.data.user));
+        dispatch(
+          setSnackBar('success', 'Password changed Successfully!', 3000)
+        );
+      })
+      .catch(function (error) {
+        dispatch(passwordChangeFailed(error.message));
+        dispatch(setSnackBar('error', error.message, 3000));
+      });
+  };
+}
+
+export function startPasswordChange() {
+  return {
+    type: CHANGE_PASSWORD_START,
+  };
+}
+
+export function passwordChangeSuccess() {
+  return {
+    type: CHANGE_PASSWORD_SUCCESS,
+  };
+}
+
+export function passwordChangeFailed(error) {
+  return {
+    type: CHANGE_PASSWORD_FAILED,
     error,
   };
 }
