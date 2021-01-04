@@ -20,16 +20,21 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logoutUser } from '../actions/user';
 import { Button } from '@material-ui/core';
+import { SearchBox } from './';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
+    position: 'sticky',
+    top: '0',
+    width: '100%',
+    zIndex: 100,
     flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
-    display: 'none',
+    minWidth: '100px',
     textDecoration: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
@@ -203,19 +208,16 @@ function ButtonAppBar(props) {
               CodeialX
             </Link>
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+
+          <Link to="/search">
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <SearchBox />
             </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
+          </Link>
+
           <div className={classes.grow} />
           {!isLoggedin && (
             <React.Fragment>
@@ -234,7 +236,7 @@ function ButtonAppBar(props) {
           )}
           {isLoggedin && (
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
+              {/* <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
                 </Badge>
@@ -246,7 +248,7 @@ function ButtonAppBar(props) {
                 <Badge badgeContent={10} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
               <IconButton
                 edge="end"
                 aria-label="account of current user"

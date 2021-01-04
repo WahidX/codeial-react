@@ -4,11 +4,11 @@ const API_ROOT = `${SERVER_ROOT}/api/v1`;
 
 export const APIurls = {
   // user
-  createSession: () => `${API_ROOT}/users/create-session`,
-  createUser: () => `${API_ROOT}/users/create-user`,
+  createSession: () => `${API_ROOT}/auth/create-session`,
+  createUser: () => `${API_ROOT}/auth/create-user`,
   fetchUser: () => `${API_ROOT}/users/profile`,
   updateUser: () => `${API_ROOT}/users/update`,
-  changePassword: () => `${API_ROOT}/users/change-password`,
+  changePassword: () => `${API_ROOT}/auth/change-password`,
 
   // posts
   fetchPosts: () => `${API_ROOT}/posts`,

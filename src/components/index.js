@@ -11,6 +11,8 @@ import Home from './Home';
 import FriendList from './FriendList';
 import CustomizedSnackbars from './SnackBar';
 import Settings from './Settings';
+import SearchBox from './SearchBox';
+import SearchResults from './SearchResults';
 import Page404 from './Page404';
 
 export {
@@ -26,6 +28,8 @@ export {
   Profile,
   Settings,
   CustomizedSnackbars,
+  SearchResults,
+  SearchBox,
   Page404,
   Footer,
 };
