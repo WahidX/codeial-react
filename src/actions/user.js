@@ -16,6 +16,9 @@ import {
   CHANGE_PASSWORD_START,
   CHANGE_PASSWORD_SUCCESS,
   CHANGE_PASSWORD_FAILED,
+  START_GET_USER,
+  GET_USER_SUCCESS,
+  GET_USER_FAILED,
 } from './actionTypes';
 import { APIurls } from '../helpers/urls';
 import { fetchFriends, clearFriends } from './friends';
@@ -281,6 +284,49 @@ export function passwordChangeSuccess() {
 export function passwordChangeFailed(error) {
   return {
     type: CHANGE_PASSWORD_FAILED,
+    error,
+  };
+}
+
+// Get User
+export function getUser(id) {
+  return (dispatch) => {
+    var config = {
+      method: 'post',
+      url: APIurls.getUser(id),
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log('reponse: ', response.data);
+        dispatch(getUserSuccess(response.data.user));
+      })
+      .catch(function (error) {
+        dispatch(getUserFailed(error.message));
+        dispatch(setSnackBar('error', error.message, 3000));
+      });
+  };
+}
+
+export function startGetUser() {
+  return {
+    type: START_GET_USER,
+  };
+}
+
+export function getUserSuccess(user) {
+  return {
+    type: GET_USER_SUCCESS,
+    user,
+  };
+}
+
+export function getUserFailed(error) {
+  return {
+    type: GET_USER_FAILED,
     error,
   };
 }

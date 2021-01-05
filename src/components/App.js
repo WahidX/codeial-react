@@ -53,8 +53,7 @@ class App extends React.Component {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
           <PrivateRoute
-            exact
-            path="/profile"
+            path="/profile/:id"
             component={Profile}
             isLoggedin={isLoggedin}
           />

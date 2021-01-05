@@ -1,18 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import { FriendList, PostList } from '.';
+import { getUser } from '../actions/user';
 
 function Profile(props) {
-  if (!props.user.isLoggedin) {
-    return <Redirect to="/login" />;
+  let id = props.match.params.id;
+  let user;
+  let admin = false;
+
+  if (props.user.user._id === id) {
+    user = props.user.user;
+    admin = true;
+  } else {
+    user = props.user.otherUser;
   }
 
-  let { name, email, bio, avatar, emailAuthenticated } = props.user.user;
+  useEffect(() => {
+    props.dispatch(getUser(id));
+  }, [id]);
+
+  let {
+    name,
+    email,
+    avatar,
+    bio,
+    emailAuthenticated,
+    following,
+    follower,
+  } = user;
 
   return (
     <React.Fragment>
@@ -40,7 +59,9 @@ function Profile(props) {
             <Grid item>
               {email}
               <br />
-              <small>{!emailAuthenticated && 'email not confirmed'} </small>
+              {admin && (
+                <small>{!emailAuthenticated && 'email not confirmed'} </small>
+              )}
             </Grid>
           </Grid>
 
@@ -51,8 +72,8 @@ function Profile(props) {
       </div>
 
       <div className="home-container">
-        <PostList pageFor="" />
-        <FriendList />
+        {/* <PostList pageFor="" /> */}
+        {/* <FriendList /> */}
       </div>
     </React.Fragment>
   );

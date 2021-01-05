@@ -7,6 +7,7 @@ export const APIurls = {
   createSession: () => `${API_ROOT}/auth/create-session`,
   createUser: () => `${API_ROOT}/auth/create-user`,
   fetchUser: () => `${API_ROOT}/users/profile`,
+  getUser: (id) => `${API_ROOT}/users/get-user/?id=${id}`,
   updateUser: () => `${API_ROOT}/users/update`,
   changePassword: () => `${API_ROOT}/auth/change-password`,
 

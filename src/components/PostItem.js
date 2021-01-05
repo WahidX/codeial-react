@@ -7,6 +7,7 @@ import {
   Typography,
   IconButton,
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import ExpandLessTwoToneIcon from '@material-ui/icons/ExpandLessTwoTone';
@@ -70,9 +71,11 @@ function PostItem(props) {
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
-        <Typography className={classes.title} color="textSecondary">
-          {post.user.name}
-        </Typography>
+        <Link to={'/profile/' + post.user._id}>
+          <Typography className={classes.title} color="textSecondary">
+            {post.user.name}
+          </Typography>
+        </Link>
         <Typography className={classes.content} color="textPrimary">
           {post.content}
         </Typography>

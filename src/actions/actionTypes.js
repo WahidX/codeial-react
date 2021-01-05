@@ -58,3 +58,8 @@ export const SEARCH_CLEAR = 'SEARCH_CLEAR';
 // Snackbar
 export const SET_SNACKBAR = 'SET_SNACKBAR';
 export const CLEAR_SNACKBAR = 'CLEAR_SNACKBAR';
+
+// Get User
+export const START_GET_USER = 'START_GET_USER';
+export const GET_USER_FAILED = 'GET_USER_FAILED';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';

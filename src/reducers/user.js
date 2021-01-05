@@ -14,6 +14,9 @@ import {
   CHANGE_PASSWORD_START,
   CHANGE_PASSWORD_SUCCESS,
   CHANGE_PASSWORD_FAILED,
+  START_GET_USER,
+  GET_USER_SUCCESS,
+  GET_USER_FAILED,
 } from '../actions/actionTypes';
 
 const initialAuthState = {
@@ -21,6 +24,7 @@ const initialAuthState = {
   error: null,
   isLoggedin: false,
   inProgress: false,
+  otherUser: {},
 };
 
 export default function user(state = initialAuthState, action) {
@@ -29,6 +33,7 @@ export default function user(state = initialAuthState, action) {
     case UPDATE_START:
     case SIGNUP_START:
     case LOGIN_START:
+    case START_GET_USER:
       return {
         ...state,
         inProgress: true,
@@ -47,6 +52,7 @@ export default function user(state = initialAuthState, action) {
     case UPDATE_FAILED:
     case SIGNUP_FAILED:
     case LOGIN_FAILED:
+    case GET_USER_FAILED:
       return {
         ...state,
         error: action.error,
@@ -77,6 +83,13 @@ export default function user(state = initialAuthState, action) {
         inProgress: false,
         error: null,
       };
+    case GET_USER_SUCCESS:
+      return {
+        ...state,
+        inProgress: false,
+        otherUser: action.user,
+      };
+
     default:
       return state;
   }
