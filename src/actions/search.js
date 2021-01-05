@@ -6,9 +6,12 @@ import {
   SEARCH_FAILED,
   SEARCH_CLEAR,
 } from './actionTypes';
+import { setSnackBar } from './snackbar';
 
 export function fetchResults(key, type) {
   return (dispatch) => {
+    dispatch(startSearch());
+
     var config = {
       method: 'post',
       url: APIurls.fetchSearchResults(key, type),
@@ -20,12 +23,12 @@ export function fetchResults(key, type) {
     axios(config)
       .then(function (response) {
         dispatch(
-          searchSuccess(response.data.user_results, response.data.post_results)
+          searchSuccess(response.data.results_user, response.data.results_post)
         );
-        console.log(JSON.stringify(response.data));
       })
       .catch(function (error) {
         dispatch(searchFailed(error));
+        dispatch(setSnackBar('error', 'Search Failed', 3000));
         console.log(error);
       });
   };
@@ -37,11 +40,11 @@ export function startSearch() {
   };
 }
 
-export function searchSuccess(user_results, post_results) {
+export function searchSuccess(userResults, postResults) {
   return {
     type: SEARCH_SUCCESS,
-    user_results,
-    post_results,
+    userResults,
+    postResults,
   };
 }
 

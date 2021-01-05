@@ -1,39 +1,59 @@
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { InputBase, LinearProgress } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { fetchResults } from '../actions/search';
+
+const useStyles = makeStyles((theme) => ({
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
 
 function SearchBox(props) {
-  const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-  ];
+  const classes = useStyles();
+  const [searchKey, setSearchKey] = useState('');
 
-  const options = top100Films.map((option) => {
-    const firstLetter = option.title[0].toUpperCase();
-    return {
-      firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-      ...option,
-    };
-  });
+  function handleOnChange(e) {
+    setSearchKey(e.target.value);
+    console.log(e.target.value);
+    if (e.target.value.length > 1) {
+      props.dispatch(fetchResults(e.target.value, 'any')); // hitting search api
+    }
+  }
+
+  let { loading } = props.search;
 
   return (
     <React.Fragment>
-      <Autocomplete
-        options={options.sort(
-          (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
-        )}
-        groupBy={(option) => option.firstLetter}
-        getOptionLabel={(option) => option.title}
-        style={{ border: 'none', width: 300 }}
-        renderInput={(params) => (
-          <TextField style={{ paddingLeft: '50px' }} {...params} />
-        )}
+      <InputBase
+        placeholder="Search…"
+        classes={{
+          root: classes.inputRoot,
+          input: classes.inputInput,
+        }}
+        inputProps={{ 'aria-label': 'search' }}
+        value={searchKey}
+        onChange={handleOnChange}
       />
+      {loading && <LinearProgress />}
     </React.Fragment>
   );
 }
 
-export default SearchBox;
+function mapStateToProps(state) {
+  return {
+    search: state.search,
+  };
+}
+
+export default connect(mapStateToProps)(SearchBox);

@@ -47,10 +47,10 @@ function PostItem(props) {
   const authorized = props.user.user._id === props.post.user._id;
 
   let like;
-  if (props.user.isLoggedin) {
+  if (props.user.isLoggedin && props.post.likes) {
     like = props.post.likes.indexOf(props.user.user._id) !== -1;
   }
-  let likeCount = props.post.likes.length;
+  let likeCount = props.post.likes ? props.post.likes.length : 0;
 
   let { isloading } = props.post_store.postInProgress;
 

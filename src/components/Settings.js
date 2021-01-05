@@ -91,7 +91,8 @@ function Settings(props) {
     setOpen(false);
   };
 
-  let handleConfirm = () => {
+  let handleConfirm = (e) => {
+    e.preventDefault();
     let password = document.getElementById('dialog-password').value;
 
     if (password.length === 0) {
@@ -286,6 +287,7 @@ function Settings(props) {
 
             <br />
             <Button
+              type="submit"
               variant="contained"
               color="primary"
               className={classes.formItems + ' updBtn'}
