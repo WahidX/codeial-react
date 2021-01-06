@@ -291,6 +291,7 @@ export function passwordChangeFailed(error) {
 // Get User
 export function getUser(id) {
   return (dispatch) => {
+    dispatch(startGetUser());
     var config = {
       method: 'post',
       url: APIurls.getUser(id),
@@ -302,7 +303,7 @@ export function getUser(id) {
     axios(config)
       .then(function (response) {
         console.log('reponse: ', response.data);
-        dispatch(getUserSuccess(response.data.user));
+        dispatch(getUserSuccess(response.data.user, response.data.posts));
       })
       .catch(function (error) {
         dispatch(getUserFailed(error.message));
@@ -317,10 +318,11 @@ export function startGetUser() {
   };
 }
 
-export function getUserSuccess(user) {
+export function getUserSuccess(user, posts) {
   return {
     type: GET_USER_SUCCESS,
     user,
+    posts,
   };
 }
 

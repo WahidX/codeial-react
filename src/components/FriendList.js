@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -51,23 +52,25 @@ function FriendList(props) {
           {friends.map((friend) => {
             const labelId = `label-${friend._id}`;
             return (
-              <ListItem key={friend._id} button>
-                <ListItemAvatar>
-                  <Avatar
-                    alt={`Avatar n°${friend._id}`}
-                    src={`/static/images/avatar/${friend._id}.jpg`}
-                  />
-                </ListItemAvatar>
-                <ListItemText id={labelId} primary={friend.to_user.name} />
-                <ListItemSecondaryAction>
-                  <Checkbox
-                    edge="end"
-                    onChange={handleToggle(friend._id)}
-                    checked={checked.indexOf(friend._id) !== -1}
-                    inputProps={{ 'aria-labelledby': labelId }}
-                  />
-                </ListItemSecondaryAction>
-              </ListItem>
+              <Link to={'/profile/' + friend._id}>
+                <ListItem key={friend._id} button>
+                  <ListItemAvatar>
+                    <Avatar
+                      alt={`Avatar n°${friend._id}`}
+                      src={`/static/images/avatar/${friend._id}.jpg`}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText id={labelId} primary={friend.name} />
+                  <ListItemSecondaryAction>
+                    <Checkbox
+                      edge="end"
+                      onChange={handleToggle(friend._id)}
+                      checked={checked.indexOf(friend._id) !== -1}
+                      inputProps={{ 'aria-labelledby': labelId }}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+              </Link>
             );
           })}
         </List>

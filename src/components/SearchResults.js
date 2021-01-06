@@ -64,7 +64,7 @@ function SearchResults(props) {
                   <ListItemText
                     primary={user.name}
                     secondary={
-                      user.bio.length > 75
+                      user.bio && user.bio.length > 75
                         ? user.bio.substring(0, 75) + '...'
                         : user.bio
                     }

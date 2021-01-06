@@ -25,6 +25,7 @@ const initialAuthState = {
   isLoggedin: false,
   inProgress: false,
   otherUser: {},
+  otherPosts: [],
 };
 
 export default function user(state = initialAuthState, action) {
@@ -77,17 +78,12 @@ export default function user(state = initialAuthState, action) {
         inProgress: false,
         error: null,
       };
-    case CLEAR_AUTH_STATE:
-      return {
-        ...state,
-        inProgress: false,
-        error: null,
-      };
     case GET_USER_SUCCESS:
       return {
         ...state,
         inProgress: false,
         otherUser: action.user,
+        otherPosts: action.posts,
       };
 
     default:

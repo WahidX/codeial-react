@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 
 // Main Component Function
 function PostList(props) {
-  let posts = props.posts;
+  let posts = props.posts ? props.posts : props.allPosts;
   let inProgress = props.user.inProgress;
   const classes = useStyles();
 
@@ -48,7 +48,7 @@ function PostList(props) {
 
 function mapStateToProps(state) {
   return {
-    posts: state.posts.posts,
+    allPosts: state.posts.posts,
     user: state.user,
   };
 }

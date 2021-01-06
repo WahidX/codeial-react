@@ -6,6 +6,7 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import { fetchUser } from '../actions/user';
 import { fetchPosts } from '../actions/posts';
@@ -22,6 +23,15 @@ import {
   Page404,
   Footer,
 } from './';
+
+// Custom theme
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#202020',
+    },
+  },
+});
 
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedin, path, component: Component } = privateRouteProps;
@@ -45,34 +55,36 @@ class App extends React.Component {
     const isLoggedin = this.props.user.isLoggedin;
 
     return (
-      <Router>
-        <ButtonAppBar />
-        <CustomizedSnackbars />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/login" component={Login} />
-          <PrivateRoute
-            path="/profile/:id"
-            component={Profile}
-            isLoggedin={isLoggedin}
-          />
-          <PrivateRoute
-            exact
-            path="/settings"
-            component={Settings}
-            isLoggedin={isLoggedin}
-          />
-          <PrivateRoute
-            exact
-            path="/search"
-            component={SearchResults}
-            isLoggedin={isLoggedin}
-          />
-          <Route component={Page404} />
-        </Switch>
-        <Footer />
-      </Router>
+      <MuiThemeProvider theme={theme}>
+        <Router>
+          <ButtonAppBar />
+          <CustomizedSnackbars />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/login" component={Login} />
+            <PrivateRoute
+              path="/profile/:id"
+              component={Profile}
+              isLoggedin={isLoggedin}
+            />
+            <PrivateRoute
+              exact
+              path="/settings"
+              component={Settings}
+              isLoggedin={isLoggedin}
+            />
+            <PrivateRoute
+              exact
+              path="/search"
+              component={SearchResults}
+              isLoggedin={isLoggedin}
+            />
+            <Route component={Page404} />
+          </Switch>
+          <Footer />
+        </Router>
+      </MuiThemeProvider>
     );
   }
 }

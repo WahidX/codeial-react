@@ -3,13 +3,14 @@ export const SERVER_ROOT = 'https://codeialx.herokuapp.com';
 const API_ROOT = `${SERVER_ROOT}/api/v1`;
 
 export const APIurls = {
-  // user
+  // auth
   createSession: () => `${API_ROOT}/auth/create-session`,
   createUser: () => `${API_ROOT}/auth/create-user`,
-  fetchUser: () => `${API_ROOT}/users/profile`,
-  getUser: (id) => `${API_ROOT}/users/get-user/?id=${id}`,
-  updateUser: () => `${API_ROOT}/users/update`,
   changePassword: () => `${API_ROOT}/auth/change-password`,
+  // user
+  fetchUser: () => `${API_ROOT}/users/profile`,
+  getUser: (id, type) => `${API_ROOT}/users/get-user/?id=${id}&type=${type}`,
+  updateUser: () => `${API_ROOT}/users/update`,
 
   // posts
   fetchPosts: () => `${API_ROOT}/posts`,
@@ -19,7 +20,7 @@ export const APIurls = {
 
   // friend
   fetchFriends: () => `${API_ROOT}/friends/`,
-  addRemove: (id) => `${API_ROOT}/friends/add-remove?id=${id}`,
+  followToggle: (id) => `${API_ROOT}/friends/add-remove?id=${id}`,
 
   //searching
   fetchSearchResults: (key, type) =>

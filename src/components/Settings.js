@@ -172,23 +172,12 @@ function Settings(props) {
     return <Redirect to="/login" />;
   }
 
-  let inProgress = props.user.inProgress;
+  let { inProgress } = props.user;
 
   return (
     <React.Fragment>
       <form>
         <FormGroup className={classes.formGroups}>
-          <TextField
-            id="email"
-            className={classes.formItems}
-            // type="email"
-            label="Email"
-            variant="outlined"
-            required
-            value={email}
-            onChange={setEmail}
-          />
-
           <TextField
             id="name"
             className={classes.formItems}
@@ -198,6 +187,17 @@ function Settings(props) {
             required
             value={name}
             onChange={setName}
+          />
+
+          <TextField
+            id="email"
+            className={classes.formItems}
+            // type="email"
+            label="Email"
+            variant="outlined"
+            required
+            value={email}
+            onChange={setEmail}
           />
 
           {/* <TextField

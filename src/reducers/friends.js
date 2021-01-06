@@ -3,6 +3,7 @@ import {
   GET_FRIEND_SUCCESS,
   GET_FRIEND_FAILED,
   CLEAR_FRIENDS,
+  START_FOLLOW_TOGGLE,
 } from '../actions/actionTypes';
 
 const initialFriends = {
@@ -13,6 +14,7 @@ const initialFriends = {
 
 export default function friends(state = initialFriends, action) {
   switch (action.type) {
+    case START_FOLLOW_TOGGLE:
     case START_GET_FRIEND:
       return {
         ...state,
@@ -35,6 +37,7 @@ export default function friends(state = initialFriends, action) {
         ...state,
         friends: [],
       };
+
     default:
       return state;
   }
