@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom';
 import { logoutUser } from '../actions/user';
 import { Button } from '@material-ui/core';
 import { SearchBox } from './';
+import user from '../reducers/user';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: '100%',
+    color: 'white',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
       width: 'auto',
@@ -108,6 +110,7 @@ function ButtonAppBar(props) {
   };
 
   let isLoggedin = props.user.isLoggedin;
+  let id = isLoggedin ? props.user.user._id : '';
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -121,7 +124,7 @@ function ButtonAppBar(props) {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        <Link to={`/profile/${props.user.user._id}`}>Profile</Link>
+        <Link to={`/profile/${id}`}>Profile</Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <Link to="/settings">Settings</Link>
@@ -173,7 +176,7 @@ function ButtonAppBar(props) {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>{isLoggedin && props.user.user.name}</p>
       </MenuItem>
     </Menu>
   );
@@ -224,7 +227,7 @@ function ButtonAppBar(props) {
           )}
           {isLoggedin && (
             <div className={classes.sectionDesktop}>
-              {/* <IconButton aria-label="show 4 new mails" color="inherit">
+              <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
                 </Badge>
@@ -236,9 +239,8 @@ function ButtonAppBar(props) {
                 <Badge badgeContent={10} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton> */}
+              </IconButton>
               <IconButton
-                edge="end"
                 aria-label="account of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
@@ -246,6 +248,7 @@ function ButtonAppBar(props) {
                 color="inherit"
               >
                 <AccountCircle />
+                {props.user.user.name}
               </IconButton>
             </div>
           )}
@@ -261,12 +264,12 @@ function ButtonAppBar(props) {
               >
                 <MoreIcon />
               </IconButton>
+              {renderMobileMenu}
+              {renderMenu}
             </div>
           )}
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
     </div>
   );
 }

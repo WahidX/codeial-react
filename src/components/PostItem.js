@@ -44,7 +44,9 @@ function PostItem(props) {
   const classes = useStyles();
 
   // will come from store
-  const authorized = props.user.user._id === props.post.user._id;
+  const authorized = props.user.isLoggedin
+    ? props.user.user._id === props.post.user._id
+    : false;
 
   let like;
   if (props.user.isLoggedin && props.post.likes) {

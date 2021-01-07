@@ -7,15 +7,14 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { FriendList, PostList } from '.';
 import { getUser } from '../actions/user';
 import { followToggle } from '../actions/friends';
-import friends from '../reducers/friends';
 
 function Profile(props) {
   let id = props.match.params.id;
   let userPosts = props.userPosts;
   let { inProgress } = props.user;
-  console.log(inProgress);
   let admin = false;
   let user;
+
   if (props.user.user._id === id) {
     user = props.user.user;
     admin = true;
@@ -35,8 +34,8 @@ function Profile(props) {
   } = user;
 
   let isFollowing = false;
-  for (let index = 0; index < props.friends.friends.length; index++) {
-    if (props.friends.friends[index]._id === _id) {
+  for (let index = 0; index < props.friends.length; index++) {
+    if (props.friends[index]._id === _id) {
       isFollowing = true;
       break;
     }
@@ -54,13 +53,14 @@ function Profile(props) {
     <React.Fragment>
       <div id="profile-page-container">
         <div id="cover-container">
-          <img className="cover-img" />
+          <img className="cover-img" alt="profile avatar" />
         </div>
 
         <div className="profile-update-container">
           <img
             className="user-dp"
             src="https://cdn3.iconfinder.com/data/icons/users-6/100/2-256.png"
+            alt="profile avatar"
           />
           <Grid container spacing={1} alignItems="flex-end">
             <Grid item>
@@ -122,7 +122,7 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     userPosts: state.user.otherPosts,
-    friends: state.friends,
+    friends: state.user.user.friends,
   };
 }
 

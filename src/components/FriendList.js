@@ -7,15 +7,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    minWidth: 250,
+    minWidth: 200,
     maxWidth: 360,
-    backgroundColor: 'cornflowerblue',
     borderRadius: '3%',
     boxShadow: '0px 0px 10px 0px cornflowerblue',
   },
@@ -23,23 +21,13 @@ const useStyles = makeStyles((theme) => ({
 
 function FriendList(props) {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState([1]);
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  if (!props.user.isLoggedin) {
+    return null;
+  }
+  let friends = props.user.user.friends ? props.user.user.friends : [];
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    let friends = props.friends.friends;
-    setChecked(newChecked);
-  };
-
-  let { friends } = props.friends;
+  console.log('fr: ', friends);
 
   return (
     <div className="friendlist-container">
@@ -50,25 +38,22 @@ function FriendList(props) {
       ) : (
         <List dense className={classes.root}>
           {friends.map((friend) => {
-            const labelId = `label-${friend._id}`;
+            const labelId = `${friend._id}`;
             return (
-              <Link to={'/profile/' + friend._id}>
-                <ListItem key={friend._id} button>
+              <Link to={'/profile/' + friend._id} key={friend._id}>
+                <ListItem className={classes.items} button>
                   <ListItemAvatar>
                     <Avatar
                       alt={`Avatar n°${friend._id}`}
                       src={`/static/images/avatar/${friend._id}.jpg`}
                     />
                   </ListItemAvatar>
-                  <ListItemText id={labelId} primary={friend.name} />
-                  <ListItemSecondaryAction>
-                    <Checkbox
-                      edge="end"
-                      onChange={handleToggle(friend._id)}
-                      checked={checked.indexOf(friend._id) !== -1}
-                      inputProps={{ 'aria-labelledby': labelId }}
-                    />
-                  </ListItemSecondaryAction>
+                  <ListItemText
+                    id={labelId}
+                    primary={friend.name}
+                    color="primary"
+                  />
+                  <ListItemSecondaryAction></ListItemSecondaryAction>
                 </ListItem>
               </Link>
             );
@@ -81,7 +66,7 @@ function FriendList(props) {
 
 function mapStateToProps(state) {
   return {
-    friends: state.friends,
+    user: state.user,
   };
 }
 

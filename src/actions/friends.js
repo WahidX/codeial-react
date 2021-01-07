@@ -4,11 +4,9 @@ import {
   START_GET_FRIEND,
   GET_FRIEND_SUCCESS,
   GET_FRIEND_FAILED,
-  CLEAR_FRIENDS,
   START_FOLLOW_TOGGLE,
-  UNFOLLOW_SUCCESS,
   FOLLOW_SUCCESS,
-  FOLLOW_TOGGLE_FAILED,
+  FOLLOW_FAILED,
 } from './actionTypes';
 
 import { setSnackBar } from './snackbar';
@@ -55,12 +53,6 @@ export function getFriendFailed(error) {
   };
 }
 
-export function clearFriends() {
-  return {
-    type: CLEAR_FRIENDS,
-  };
-}
-
 export function followToggle(id) {
   return (dispatch) => {
     dispatch(startFollowToggle());
@@ -71,22 +63,24 @@ export function followToggle(id) {
         Authorization: 'Bearer ' + localStorage.getItem('token'),
       },
     };
-    console.log('sent');
+
     axios(config)
       .then(function (response) {
-        console.log('done');
         console.log(response.data);
-        dispatch(fetchFriends());
-        if (response.data.message === 'Added successfully') {
-          dispatch(setSnackBar('success', 'Followed', 3000));
-        } else {
-          dispatch(setSnackBar('success', 'Unfollowed', 3000));
-        }
+        dispatch(
+          followSuccess(
+            id,
+            response.data.message,
+            response.data.target_user_follower,
+            response.data.req_user_following
+          )
+        );
+        dispatch(setSnackBar('success', response.data.message, 3000));
       })
       .catch(function (error) {
         console.log(error);
         console.log('er');
-        // dispatch(followToggleFailed(error));
+        dispatch(followFailed(error));
         dispatch(setSnackBar('error', 'Follow/Unfollow failed', 3000));
       });
   };
@@ -98,23 +92,19 @@ export function startFollowToggle() {
   };
 }
 
-// export function unfollowSuccess(id) {
-//   return {
-//     type: UNFOLLOW_SUCCESS,
-//     id,
-//   };
-// }
+export function followSuccess(id, followType, follower, following) {
+  return {
+    type: FOLLOW_SUCCESS,
+    id,
+    followType,
+    follower,
+    following,
+  };
+}
 
-// export function followSuccess(id) {
-//   return {
-//     type: FOLLOW_SUCCESS,
-//     id,
-//   };
-// }
-
-// export function followToggleFailed(error) {
-//   return {
-//     type: FOLLOW_TOGGLE_FAILED,
-//     error,
-//   };
-// }
+export function followFailed(error) {
+  return {
+    type: FOLLOW_FAILED,
+    error,
+  };
+}

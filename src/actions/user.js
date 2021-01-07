@@ -21,7 +21,7 @@ import {
   GET_USER_FAILED,
 } from './actionTypes';
 import { APIurls } from '../helpers/urls';
-import { fetchFriends, clearFriends } from './friends';
+import { fetchFriends } from './friends';
 import { setSnackBar } from './snackbar';
 
 export function startLogin() {
@@ -120,9 +120,8 @@ export function createUser(name, email, password, confirm_password) {
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
-        localStorage.setItem('token', response.data.data.token);
-        dispatch(signupSuccess(response.data));
+        localStorage.setItem('token', response.data.token);
+        dispatch(signupSuccess(response.data.user));
         dispatch(setSnackBar('success', 'User created successfully', 3000));
       })
       .catch(function (error) {
@@ -146,7 +145,7 @@ export function fetchUser() {
     axios(config)
       .then(function (response) {
         console.log('reponse: ', response.data);
-        dispatch(authenticateUser(response.data.data.user));
+        dispatch(authenticateUser(response.data.user));
         dispatch(fetchFriends());
         dispatch(setSnackBar('success', 'User session restored', 3000));
       })
@@ -167,7 +166,6 @@ export function authenticateUser(user) {
 export function logoutUser() {
   return (dispatch) => {
     localStorage.removeItem('token');
-    dispatch(clearFriends());
     dispatch(logout());
   };
 }

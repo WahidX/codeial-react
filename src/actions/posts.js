@@ -20,7 +20,6 @@ export function fetchPosts() {
       method: 'get',
       url: APIurls.fetchPosts(),
     };
-    console.log(config.url);
     axios(config)
       .then(function (response) {
         dispatch(updatePosts(response.data.posts));
