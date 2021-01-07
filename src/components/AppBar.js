@@ -20,7 +20,6 @@ import { Link } from 'react-router-dom';
 import { logoutUser } from '../actions/user';
 import { Button } from '@material-ui/core';
 import { SearchBox } from './';
-import user from '../reducers/user';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
