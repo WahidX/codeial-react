@@ -2,12 +2,18 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Button, TextField } from '@material-ui/core';
+import { GoogleLogin } from 'react-google-login';
 
 import { createSession } from '../actions/user';
 
 function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // google login
+  const responseGoogle = (response) => {
+    console.log(response.profileObj);
+  };
 
   let onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -60,6 +66,15 @@ function Login(props) {
       >
         Login
       </Button>
+
+      <GoogleLogin
+        clientId="546518601365-uepi6qqjurrb92141rskcuemhjk4vlkd.apps.googleusercontent.com"
+        buttonText="Login with Google"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={'single_host_origin'}
+      />
+
       <a href="#">
         <img
           alt="sign up with google"
