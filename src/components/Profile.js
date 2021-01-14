@@ -51,20 +51,24 @@ function Profile(props) {
 
   return (
     <React.Fragment>
-      <div id="profile-page-container">
-        <div id="cover-container">
-          <img className="cover-img" alt="profile avatar" />
-        </div>
-
+      <div
+        id="profile-page-container"
+        style={{ boxShadow: '0px 0px 10px 0px cornflowerblue' }}
+      >
         <div className="profile-update-container">
-          <img
-            className="user-dp"
-            src="https://cdn3.iconfinder.com/data/icons/users-6/100/2-256.png"
-            alt="profile avatar"
-          />
           <Grid container spacing={1} alignItems="flex-end">
             <Grid item>
-              <AccountCircleIcon />
+              {avatar ? (
+                <img
+                  style={{
+                    borderRadius: '50%',
+                  }}
+                  src={props.user.user.avatar}
+                  alt="user"
+                />
+              ) : (
+                <AccountCircleIcon />
+              )}
             </Grid>
             <Grid item>{name}</Grid>
           </Grid>

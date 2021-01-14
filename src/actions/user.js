@@ -19,6 +19,7 @@ import {
   START_GET_USER,
   GET_USER_SUCCESS,
   GET_USER_FAILED,
+  SET_PASSWORD_SUCCESS,
 } from './actionTypes';
 import { APIurls } from '../helpers/urls';
 import { fetchFriends } from './friends';
@@ -255,12 +256,17 @@ export function changePassword(oldPassword, newPassword, confirmPassword) {
     axios(config)
       .then(function (response) {
         console.log('reponse: ', response.data);
-        dispatch(passwordChangeSuccess(response.data.user));
+        if (oldPassword === '') {
+          dispatch(passwordSetSuccess());
+        } else {
+          dispatch(passwordChangeSuccess());
+        }
         dispatch(
-          setSnackBar('success', 'Password changed Successfully!', 3000)
+          setSnackBar('success', 'Password Updated Successfully!', 3000)
         );
       })
       .catch(function (error) {
+        console.log(error);
         dispatch(passwordChangeFailed(error.message));
         dispatch(setSnackBar('error', error.message, 3000));
       });
@@ -276,6 +282,12 @@ export function startPasswordChange() {
 export function passwordChangeSuccess() {
   return {
     type: CHANGE_PASSWORD_SUCCESS,
+  };
+}
+
+export function passwordSetSuccess() {
+  return {
+    type: SET_PASSWORD_SUCCESS,
   };
 }
 

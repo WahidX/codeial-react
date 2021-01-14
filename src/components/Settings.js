@@ -68,11 +68,11 @@ function Settings(props) {
   const [name, setName] = useInput(props.user.user.name);
   //   const [contact, setContact] = useInput(props.user.user.contact);
   const [bio, setBio] = useInput(props.user.user.bio);
+  const [avatar, setAvatar] = useInput(props.user.user.avatar);
 
   const [open, setOpen] = useState(false);
 
   let handleSubmit = (e) => {
-    console.log(email, name, bio);
     // validate all the fields
     if (
       !email ||
@@ -84,7 +84,20 @@ function Settings(props) {
       return;
     }
 
-    setOpen(true);
+    if (props.user.user.accountType === 'local') {
+      setOpen(true);
+    } else {
+      props.dispatch(
+        updateUser(
+          name,
+          email,
+          bio,
+          avatar,
+          // contact,
+          '' //pass
+        )
+      );
+    }
   };
 
   const handleDialogClose = () => {
@@ -106,7 +119,7 @@ function Settings(props) {
         name,
         email,
         bio,
-        '', //avatar
+        avatar,
         // contact,
         password
       )
@@ -121,11 +134,7 @@ function Settings(props) {
   const [confirmPassword, setConfirmPassword] = useInput('');
 
   let handlePassChange = () => {
-    if (
-      oldPassword.length === 0 ||
-      newPassword.length === 0 ||
-      confirmPassword.length === 0
-    ) {
+    if (newPassword.length === 0 || confirmPassword.length === 0) {
       props.dispatch(setSnackBar('error', 'Fields empty', 3000));
       return;
     }
@@ -133,7 +142,6 @@ function Settings(props) {
       props.dispatch(setSnackBar('error', 'Passwords not matching', 3000));
       return;
     }
-
     props.dispatch(changePassword(oldPassword, newPassword, confirmPassword));
   };
 
@@ -251,18 +259,24 @@ function Settings(props) {
             aria-controls="panel1a-content"
             id="password-accordion"
           >
-            <Typography className={classes.heading}>Change Password</Typography>
+            <Typography className={classes.heading}>
+              {props.user.user.accountType === 'local'
+                ? 'Change Password'
+                : 'Set New Password'}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.content}>
-            <TextField
-              id="old_password"
-              className={classes.formItems}
-              type="password"
-              label="Old Password"
-              variant="outlined"
-              value={oldPassword}
-              onChange={setOldPassword}
-            />
+            {props.user.user.accountType === 'local' && (
+              <TextField
+                id="old_password"
+                className={classes.formItems}
+                type="password"
+                label="Old Password"
+                variant="outlined"
+                value={oldPassword}
+                onChange={setOldPassword}
+              />
+            )}
             <br />
 
             <TextField
@@ -285,6 +299,7 @@ function Settings(props) {
               onChange={setConfirmPassword}
             />
 
+            <br />
             <br />
             <Button
               type="submit"

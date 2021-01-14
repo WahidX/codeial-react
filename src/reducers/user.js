@@ -13,6 +13,7 @@ import {
   UPDATE_SUCCESS,
   CHANGE_PASSWORD_START,
   CHANGE_PASSWORD_SUCCESS,
+  SET_PASSWORD_SUCCESS,
   CHANGE_PASSWORD_FAILED,
   START_GET_USER,
   GET_USER_SUCCESS,
@@ -76,15 +77,22 @@ export default function user(state = initialAuthState, action) {
         isLoggedin: true,
       };
     case LOGOUT:
-      return {
-        initialAuthState,
-      };
+      return initialAuthState;
     case CHANGE_PASSWORD_SUCCESS:
     case CLEAR_AUTH_STATE:
       return {
         ...state,
         inProgress: false,
         error: null,
+      };
+    case SET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        inProgress: false,
+        user: {
+          ...state.user,
+          accountType: 'local',
+        },
       };
     case GET_USER_SUCCESS:
       return {
