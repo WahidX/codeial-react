@@ -14,6 +14,7 @@ import ExpandLessTwoToneIcon from '@material-ui/icons/ExpandLessTwoTone';
 import ArrowUpwardTwoToneIcon from '@material-ui/icons/ArrowUpwardTwoTone';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ShareIcon from '@material-ui/icons/Share';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import { likeToggle, deletePost } from '../actions/posts';
 
 const useStyles = makeStyles({
@@ -27,8 +28,14 @@ const useStyles = makeStyles({
     margin: '0 2px',
     transform: 'scale(0.8)',
   },
+  header: {
+    display: 'flex',
+    marginBottom: '10px',
+    alignItems: 'center',
+  },
   title: {
     fontSize: 14,
+    marginLeft: '10px',
   },
   pos: {
     marginBottom: 12,
@@ -73,7 +80,19 @@ function PostItem(props) {
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
-        <Link to={'/profile/' + post.user._id}>
+        <Link to={'/profile/' + post.user._id} className={classes.header}>
+          {post.user.avatar ? (
+            <img
+              src={post.user.avatar}
+              alt="P"
+              style={{
+                width: '35px',
+                borderRadius: '50%',
+              }}
+            />
+          ) : (
+            <AccountCircle />
+          )}
           <Typography className={classes.title} color="textSecondary">
             {post.user.name}
           </Typography>

@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { GoogleLogin } from 'react-google-login';
 import { Button, TextField } from '@material-ui/core';
 
-import { createUser } from '../actions/user';
+import { createUser, googleAuth } from '../actions/user';
+import { setSnackBar } from '../actions/snackbar';
 
 function Signup(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  // google login
+  const responseGoogleSuccess = (response) => {
+    props.dispatch(googleAuth(response.profileObj));
+    console.log(response.profileObj);
+  };
+
+  const responseGoogleFailed = (response) => {
+    console.log('User not found. Err: ', response);
+    props.dispatch(setSnackBar('error', "Couldn't get a response", 3000));
+  };
 
   let onChangeName = (e) => {
     setName(e.target.value);
@@ -99,15 +112,19 @@ function Signup(props) {
         className="submit-btn"
         disabled={inProgress}
         onClick={onSubmit}
+        variant="contained"
+        color="primary"
       >
         Signup
       </Button>
-      <a href="#">
-        <img
-          alt="sign up with google"
-          src="https://www.flaticon.com/svg/static/icons/svg/281/281764.svg"
-        />
-      </a>
+
+      <GoogleLogin
+        clientId="546518601365-uepi6qqjurrb92141rskcuemhjk4vlkd.apps.googleusercontent.com"
+        buttonText="Login with Google"
+        onSuccess={responseGoogleSuccess}
+        onFailure={responseGoogleFailed}
+        cookiePolicy={'single_host_origin'}
+      />
     </form>
   );
 }

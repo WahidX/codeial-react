@@ -58,7 +58,11 @@ function SearchResults(props) {
                 <ListItem className={classes.userItem}>
                   <ListItemAvatar>
                     <Avatar>
-                      <AccountCircle />
+                      {user.avatar ? (
+                        <img src={user.avatar} alt="P" width="40" />
+                      ) : (
+                        <AccountCircle />
+                      )}
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
@@ -103,7 +107,6 @@ function SearchResults(props) {
   return (
     <div id="srch-results-container">
       <UserCard />
-
       <PostCard postResults={postResults} />
     </div>
   );

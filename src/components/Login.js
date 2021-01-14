@@ -70,6 +70,8 @@ function Login(props) {
         className="submit-btn"
         disabled={inProgress}
         onClick={onSubmit}
+        variant="contained"
+        color="primary"
       >
         Login
       </Button>
@@ -81,13 +83,6 @@ function Login(props) {
         onFailure={responseGoogleFailed}
         cookiePolicy={'single_host_origin'}
       />
-
-      <a href="#">
-        <img
-          alt="sign up with google"
-          src="https://www.flaticon.com/svg/static/icons/svg/281/281764.svg"
-        />
-      </a>
     </form>
   );
 }
