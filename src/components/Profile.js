@@ -115,7 +115,7 @@ function Profile(props) {
       </div>
 
       <div className="home-container">
-        <PostList pageFor="" posts={userPosts} />
+        <PostList pageFor="profile" posts={userPosts} />
         {/* <FriendList /> */}
       </div>
     </React.Fragment>

@@ -195,7 +195,7 @@ function ButtonAppBar(props) {
 
           <Typography className={classes.title} variant="h6" noWrap>
             <Link to="/" style={{ color: 'white' }}>
-              CodeialX
+              Code1alX
             </Link>
           </Typography>
 

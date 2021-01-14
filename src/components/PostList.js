@@ -18,11 +18,15 @@ function PostList(props) {
   let posts = props.posts ? props.posts : props.allPosts;
   let inProgress = props.user.inProgress;
   const classes = useStyles();
-
+  console.log('PAGEFOR: ', props.pageFor);
   // TODO: should be handled via fetchingInprogress
   return (
     <div className="posts-container">
-      <PostForm />
+      {props.pageFor !== 'profile' ? (
+        <PostForm />
+      ) : (
+        <div style={{ height: '50px' }}></div>
+      )}
 
       {posts.length === 0 && !inProgress && (
         <div className={classes.root + ' postlist-container'}>

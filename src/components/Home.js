@@ -4,7 +4,7 @@ import { PostList, FriendList } from '.';
 function Home(props) {
   return (
     <div className="home-container">
-      <PostList />
+      <PostList pageFor="home" />
       <FriendList />
     </div>
   );
