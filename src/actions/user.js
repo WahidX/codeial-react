@@ -330,3 +330,37 @@ export function getUserFailed(error) {
     error,
   };
 }
+
+// Google Auth actions:
+export function googleAuth(profile) {
+  return (dispatch) => {
+    dispatch(startLogin());
+
+    var data = qs.stringify({
+      name: profile.name,
+      email: profile.email,
+      avatar: profile.imageUrl,
+    });
+    var config = {
+      method: 'post',
+      url: APIurls.googleAuth(),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(response.data);
+        dispatch(loginSuccess(response.data.user));
+        dispatch(setSnackBar('success', 'Welcome', 3000));
+        localStorage.setItem('token', response.data.token);
+      })
+      .catch(function (error) {
+        dispatch(loginFailed(error));
+        dispatch(setSnackBar('error', 'error', 3000));
+        console.log(error);
+      });
+  };
+}

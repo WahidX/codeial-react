@@ -4,15 +4,22 @@ import { Redirect } from 'react-router-dom';
 import { Button, TextField } from '@material-ui/core';
 import { GoogleLogin } from 'react-google-login';
 
-import { createSession } from '../actions/user';
+import { createSession, googleAuth } from '../actions/user';
+import { setSnackBar } from '../actions/snackbar';
 
 function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   // google login
-  const responseGoogle = (response) => {
+  const responseGoogleSuccess = (response) => {
+    props.dispatch(googleAuth(response.profileObj));
     console.log(response.profileObj);
+  };
+
+  const responseGoogleFailed = (response) => {
+    console.log('User not found. Err: ', response);
+    props.dispatch(setSnackBar('error', "Couldn't get a response", 3000));
   };
 
   let onChangeEmail = (e) => {
@@ -70,8 +77,8 @@ function Login(props) {
       <GoogleLogin
         clientId="546518601365-uepi6qqjurrb92141rskcuemhjk4vlkd.apps.googleusercontent.com"
         buttonText="Login with Google"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
+        onSuccess={responseGoogleSuccess}
+        onFailure={responseGoogleFailed}
         cookiePolicy={'single_host_origin'}
       />
 

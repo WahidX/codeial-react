@@ -246,8 +246,20 @@ function ButtonAppBar(props) {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle />
-                {props.user.user.name}
+                {props.user.user.avatar ? (
+                  <img
+                    style={{
+                      width: '40px',
+                      borderRadius: '50%',
+                    }}
+                    src={props.user.user.avatar}
+                    alt="user"
+                  />
+                ) : (
+                  <AccountCircle />
+                )}{' '}
+                &nbsp;
+                {props.user.user.name.split(' ')[0]}
               </IconButton>
             </div>
           )}
