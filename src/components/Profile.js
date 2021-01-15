@@ -63,7 +63,7 @@ function Profile(props) {
                   style={{
                     borderRadius: '50%',
                   }}
-                  src={props.user.user.avatar}
+                  src={avatar}
                   alt="user"
                 />
               ) : (

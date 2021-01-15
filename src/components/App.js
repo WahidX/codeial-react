@@ -20,6 +20,7 @@ import {
   CustomizedSnackbars,
   Settings,
   SearchResults,
+  ChatContainer,
   Page404,
   Footer,
 } from './';
@@ -82,6 +83,8 @@ class App extends React.Component {
             />
             <Route component={Page404} />
           </Switch>
+
+          {isLoggedin && <ChatContainer />}
           <Footer />
         </Router>
       </MuiThemeProvider>

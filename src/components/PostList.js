@@ -18,7 +18,7 @@ function PostList(props) {
   let posts = props.posts ? props.posts : props.allPosts;
   let inProgress = props.user.inProgress;
   const classes = useStyles();
-  console.log('PAGEFOR: ', props.pageFor);
+
   // TODO: should be handled via fetchingInprogress
   return (
     <div className="posts-container">

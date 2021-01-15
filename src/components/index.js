@@ -13,6 +13,7 @@ import CustomizedSnackbars from './SnackBar';
 import Settings from './Settings';
 import SearchBox from './SearchBox';
 import SearchResults from './SearchResults';
+import ChatContainer from './ChatContainer';
 import Page404 from './Page404';
 
 export {
@@ -30,6 +31,7 @@ export {
   CustomizedSnackbars,
   SearchResults,
   SearchBox,
+  ChatContainer,
   Page404,
   Footer,
 };
