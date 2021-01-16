@@ -212,7 +212,10 @@ function ButtonAppBar(props) {
           {!isLoggedin && (
             <React.Fragment>
               <Button color="primary">
-                <Link to="/login" style={{ color: 'white' }}>
+                <Link
+                  to="/login"
+                  style={{ color: 'white', paddingRight: '20px' }}
+                >
                   Login
                 </Link>
               </Button>
