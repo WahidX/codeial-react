@@ -1,11 +1,14 @@
 import React from 'react';
-import { PostList, FriendList } from '.';
+import { PostList, FriendList, ChatContainer } from '.';
 
 function Home(props) {
   return (
     <div className="home-container">
       <PostList pageFor="home" />
-      <FriendList />
+      <div className="right-sidebar-container">
+        <FriendList />
+        <ChatContainer />
+      </div>
     </div>
   );
 }

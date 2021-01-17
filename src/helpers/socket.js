@@ -18,6 +18,10 @@ export default class Socket {
     // });
   }
 
+  // emitEvent(event, args) {
+  //   this.socket.emit(event, args);
+  // }
+
   closeSocket(uid) {
     console.log('disconnected');
     this.socket.close();

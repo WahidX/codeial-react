@@ -23,16 +23,61 @@ body {
   width: 60%;
 }
 
-/* scrollable */
-/* .postlist-container {
-  height: 500px;
-  overflow-y: scroll;
-} */
-
 .friendlist-container {
   font-size: 1.2rem;
-  position: sticky;
   top: 100px;
+  padding: 10px;
+  height: 200px;
+  overflow-y: hidden;
+}
+
+/* Chat Window */
+.chat-window {
+  position: absolute;
+  bottom: 1%;
+  max-width: 400px;
+  display: flex;
+  padding: 5px;
+  flex-direction: column;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px cornflowerblue;
+}
+
+.chat-window .title {
+  background-color: cornflowerblue;
+  align-items: center;
+  padding: 0px 10px;
+  display: flex;
+  border-radius: 8px 8px 0px 0px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.msg-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.msg {
+  font-size: 0.8rem;
+  /* width: fit-content; */
+  background-color: white;
+  border: solid 2px rgb(156, 191, 255);
+  padding: 0px 8px;
+  margin: 5px;
+}
+
+.msg-right {
+  text-align: right;
+  /* float: right; */
+  border-radius: 8px 8px 0px 8px;
+}
+
+.msg-left {
+  text-align: left;
+  border-radius: 0px 8px 8px 8px;
 }
 
 /* LOGIN & SIGNUP COMPONENTS */
