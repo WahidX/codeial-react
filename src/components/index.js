@@ -14,7 +14,10 @@ import Settings from './Settings';
 import SearchBox from './SearchBox';
 import SearchResults from './SearchResults';
 import ChatContainer from './ChatContainer';
+import ChatBox from './ChatBox';
 import Page404 from './Page404';
+import ChatList from './ChatList';
+import ResultChips from './ResultChips';
 
 export {
   App,
@@ -32,6 +35,9 @@ export {
   SearchResults,
   SearchBox,
   ChatContainer,
+  ChatBox,
+  ResultChips,
+  ChatList,
   Page404,
   Footer,
 };

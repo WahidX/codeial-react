@@ -33,14 +33,21 @@ body {
 
 /* Chat Window */
 .chat-window {
-  position: absolute;
-  bottom: 1%;
+  /* position: absolute; */
+  /* bottom: 1%; */
+  /* right: 1%; */
+  min-width: 200px;
   max-width: 400px;
   display: flex;
   padding: 5px;
   flex-direction: column;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px cornflowerblue;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-window .title {
@@ -54,6 +61,7 @@ body {
 }
 
 .msg-list {
+  width: 100%;
   display: flex;
   flex-direction: column;
   max-height: 200px;
@@ -62,7 +70,6 @@ body {
 
 .msg {
   font-size: 0.8rem;
-  /* width: fit-content; */
   background-color: white;
   border: solid 2px rgb(156, 191, 255);
   padding: 0px 8px;
@@ -78,6 +85,10 @@ body {
 .msg-left {
   text-align: left;
   border-radius: 0px 8px 8px 8px;
+}
+
+.chip-list * {
+  margin: 5px;
 }
 
 /* LOGIN & SIGNUP COMPONENTS */
