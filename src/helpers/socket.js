@@ -1,10 +1,13 @@
 import io from 'socket.io-client';
+import { APIurls } from './urls';
 
 export default class Socket {
   constructor(uid) {
-    // need uid
-    this.ENDPOINT = 'localhost:5000';
-    this.socket = io(this.ENDPOINT); // connected
+    this.socket = io(APIurls.getEndPoint(), {
+      query: {
+        token: localStorage.getItem('token'),
+      },
+    }); // connected
 
     console.log('connected');
     this.socket.emit('init', { uid });
@@ -26,4 +29,13 @@ export default class Socket {
     console.log('disconnected');
     this.socket.close();
   }
+}
+
+let socket;
+
+export function getSocket(uid) {
+  if (!socket) {
+    socket = new Socket(uid);
+  }
+  return socket;
 }

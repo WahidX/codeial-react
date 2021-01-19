@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Socket from '../helpers/socket';
+import { getSocket } from '../helpers/socket';
 
 let socket;
 
@@ -28,7 +28,8 @@ function ChatBox(props) {
   const [msg, setMsg] = useInput('');
 
   useEffect(() => {
-    socket = new Socket(props.user.user._id); //uid
+    // socket = new Socket(props.user.user._id); //uid
+    socket = getSocket(props.user.user._id);
 
     socket.socket.on('online', (uid) => {
       console.log('uid came online: ', uid);
@@ -54,7 +55,7 @@ function ChatBox(props) {
   let handleSend = () => {
     if (msg.trim().length === 0) return;
     console.log(`MSG: ${msg.trim()}`);
-    socket.socket.emit('send-message', { msg });
+    socket.socket.emit('send-message', { msg: msg, uid: props.user.user._id }); //room id needed
     document.getElementById('textfield-chat').value = '';
   };
 

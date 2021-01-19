@@ -44,7 +44,7 @@ function SearchResults(props) {
   let { userResults, postResults } = props.search;
 
   function UserCard() {
-    if (userResults.length === 0) {
+    if (!userResults || userResults.length === 0) {
       return null;
     }
 
@@ -85,7 +85,7 @@ function SearchResults(props) {
   function PostCard(props) {
     let postResults = props.postResults;
 
-    if (postResults.length === 0) {
+    if (!postResults || postResults.length === 0) {
       return null;
     }
     return (

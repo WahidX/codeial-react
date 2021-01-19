@@ -26,4 +26,7 @@ export const APIurls = {
   //searching
   fetchSearchResults: (key, type) =>
     `${API_ROOT}/search/?key=${key}&type=${type}`,
+
+  // socket Endpoint
+  getEndPoint: () => 'localhost:5000',
 };

@@ -7,7 +7,6 @@ function Home(props) {
       <PostList pageFor="home" />
       <div className="right-sidebar-container">
         <FriendList />
-        <ChatContainer />
       </div>
     </div>
   );
