@@ -23,11 +23,13 @@ function SearchBox(props) {
   const classes = useStyles();
   const [searchKey, setSearchKey] = useState('');
 
+  let filter = props.filter || 'any'; // user, posts or all
+
   function handleOnChange(e) {
     setSearchKey(e.target.value);
     console.log(e.target.value);
     if (e.target.value.length > 1) {
-      props.dispatch(fetchResults(e.target.value, 'any')); // hitting search api
+      props.dispatch(fetchResults(e.target.value, filter)); // hitting search api
     }
   }
 

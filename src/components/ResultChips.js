@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Chip, Avatar } from '@material-ui/core';
 
 function ResultChips(props) {
@@ -6,27 +7,27 @@ function ResultChips(props) {
     console.log('selected');
   };
 
-  //   let results = [];
+  let results = props.search.userResults;
+  console.log('results::: ', results);
 
   return (
     <div className="chip-list">
-      <Chip
-        label="User Name"
-        onClick={handleSelect}
-        avatar={<Avatar src="/static/images/avatar/1.jpg" />}
-      />
-      <Chip
-        label="User Name"
-        onClick={handleSelect}
-        avatar={<Avatar src="/static/images/avatar/1.jpg" />}
-      />
-      <Chip
-        label="User Name"
-        onClick={handleSelect}
-        avatar={<Avatar src="/static/images/avatar/1.jpg" />}
-      />
+      {results.map((user) => (
+        <Chip
+          label={user.name}
+          onClick={handleSelect}
+          avatar={<Avatar src={user.avatar} />}
+        />
+      ))}
     </div>
   );
 }
 
-export default ResultChips;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    search: state.search,
+  };
+}
+
+export default connect(mapStateToProps)(ResultChips);

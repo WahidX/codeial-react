@@ -1,28 +1,40 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   Accordion,
   AccordionSummary,
-  List,
-  ListItem,
-  Typography,
   AccordionDetails,
-  Avatar,
-  ListItemText,
-  ListItemIcon,
 } from '@material-ui/core';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ChatList, ChatBox, SearchBox, ResultChips } from './';
 
 function ChatContainer(props) {
+  if (!props.isLoggedin) {
+    return null;
+  }
+
   return (
-    <div>
+    <div id="chat-container">
       <ChatList />
-      <SearchBox />
-      <ResultChips />
+
+      <Accordion>
+        <AccordionSummary className="title">
+          <SearchBox filter="user" />
+        </AccordionSummary>
+        <AccordionDetails className="flex-column">
+          <ResultChips />
+        </AccordionDetails>
+      </Accordion>
+
       <ChatBox />
     </div>
   );
 }
 
-export default ChatContainer;
+function mapStateToProps(state) {
+  return {
+    isLoggedin: state.user.isLoggedin,
+  };
+}
+
+export default connect(mapStateToProps)(ChatContainer);

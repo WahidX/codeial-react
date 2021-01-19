@@ -72,7 +72,7 @@ function ChatBox(props) {
           </div>
         </div>
 
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
           <TextField id="textfield-chat" onChange={setMsg} value={msg} />
           <IconButton onClick={handleSend}>
             <SendTwoToneIcon />

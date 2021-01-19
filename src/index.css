@@ -32,12 +32,15 @@ body {
 }
 
 /* Chat Window */
-.chat-window {
-  /* position: absolute; */
-  /* bottom: 1%; */
-  /* right: 1%; */
+#chat-container {
+  position: fixed;
+  bottom: 1%;
+  right: 1%;
+  width: 25%;
   min-width: 200px;
-  max-width: 400px;
+}
+
+.chat-window {
   display: flex;
   padding: 5px;
   flex-direction: column;
