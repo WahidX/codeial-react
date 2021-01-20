@@ -19,7 +19,7 @@ function ResultChips(props) {
     });
   };
 
-  let results = props.search.userResults;
+  let results = props.search.userResults || [];
 
   return (
     <div className="chip-list">
