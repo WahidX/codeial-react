@@ -24,6 +24,7 @@ import {
 import { APIurls } from '../helpers/urls';
 import { fetchFriends } from './friends';
 import { setSnackBar } from './snackbar';
+import { getSocket } from '../helpers/socket';
 
 export function startLogin() {
   return {
@@ -167,6 +168,10 @@ export function authenticateUser(user) {
 export function logoutUser() {
   return (dispatch) => {
     localStorage.removeItem('token');
+    let socket = getSocket();
+    socket.closeSocket();
+    socket = null;
+
     dispatch(logout());
   };
 }

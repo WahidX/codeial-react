@@ -3,14 +3,16 @@ import { APIurls } from './urls';
 
 export default class Socket {
   constructor(uid) {
+    this.token = localStorage.getItem('token');
     this.socket = io(APIurls.getEndPoint(), {
       query: {
-        token: localStorage.getItem('token'),
+        token: this.token,
+        uid,
       },
     }); // connected
 
     console.log('connected');
-    this.socket.emit('init', { uid });
+    // this.socket.emit('init', { uid });
 
     this.socket.on('connect', () => {
       console.log('connected, SocketID: ', this.socket.id);
@@ -25,7 +27,7 @@ export default class Socket {
   //   this.socket.emit(event, args);
   // }
 
-  closeSocket(uid) {
+  closeSocket() {
     console.log('disconnected');
     this.socket.close();
   }
@@ -34,7 +36,8 @@ export default class Socket {
 let socket;
 
 export function getSocket(uid) {
-  if (!socket) {
+  if (!socket || socket.token !== localStorage.getItem('token')) {
+    console.log('registered new socket.');
     socket = new Socket(uid);
   }
   return socket;

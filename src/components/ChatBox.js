@@ -26,10 +26,12 @@ const messages = [
 
 function ChatBox(props) {
   const [msg, setMsg] = useInput('');
-
+  let id = props.user.user._id;
+  let isLoggedin = props.user.isLoggedin;
   useEffect(() => {
     // socket = new Socket(props.user.user._id); //uid
-    socket = getSocket(props.user.user._id);
+    socket = getSocket(id);
+    console.log('tryryryyryryryy');
 
     socket.socket.on('online', (uid) => {
       console.log('uid came online: ', uid);
@@ -40,9 +42,9 @@ function ChatBox(props) {
     });
 
     return () => {
-      socket.closeSocket(props.user.user._id);
+      socket.closeSocket();
     };
-  }, []);
+  }, [isLoggedin]);
 
   function useInput(initialValue) {
     const [value, setValue] = useState(initialValue);
