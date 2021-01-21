@@ -25,6 +25,7 @@ import { APIurls } from '../helpers/urls';
 import { fetchFriends } from './friends';
 import { setSnackBar } from './snackbar';
 import { getSocket } from '../helpers/socket';
+import { fetchChats } from './chats';
 
 export function startLogin() {
   return {
@@ -69,6 +70,7 @@ export function createSession(email, password) {
         console.log(JSON.stringify(response.data));
         localStorage.setItem('token', response.data.data.token);
         dispatch(loginSuccess(response.data.data.user));
+        dispatch(fetchChats());
         dispatch(fetchFriends());
         dispatch(setSnackBar('success', 'Logged in successfully', 3000));
       })
@@ -148,6 +150,7 @@ export function fetchUser() {
       .then(function (response) {
         console.log('reponse: ', response.data);
         dispatch(authenticateUser(response.data.user));
+        dispatch(fetchChats());
         dispatch(fetchFriends());
         dispatch(setSnackBar('success', 'User session restored', 3000));
       })

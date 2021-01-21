@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Chip, Avatar } from '@material-ui/core';
 import { getSocket } from '../helpers/socket';
+import { addToChats } from '../actions/chats';
 
 let socket;
 
@@ -11,12 +12,15 @@ function ResultChips(props) {
   }, []);
 
   let handleSelect = (id) => {
-    console.log('selected: ', id);
-    console.log('selected: ', props.user.user._id);
-    socket.socket.emit('enter-room', {
-      uid: props.user.user._id,
-      targetUid: id,
+    socket.socket.emit('enter-room', props.user.user._id, id, (response) => {
+      props.dispatch(addToChats(response.newChat));
     });
+
+    // socket.socket.emit('enter-room', {
+    //   uid: props.user.user._id,
+    //   targetUid: id,
+    // });
+    // props.dispatch(fetchChats());
   };
 
   let results = props.search.userResults || [];
@@ -39,6 +43,7 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     search: state.search,
+    chats: state.chats,
   };
 }
 

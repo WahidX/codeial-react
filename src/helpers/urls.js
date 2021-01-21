@@ -29,6 +29,6 @@ export const APIurls = {
 
   // socket Endpoint
   getEndPoint: () => 'localhost:5000',
-  getChats: () => `${API_ROOT}/chats`,
-  getMessages: (id) => `${API_ROOT}/messages/${id}`,
+  getChats: () => `${API_ROOT}/chat/all-chats`,
+  getMessages: (id) => `${API_ROOT}/chat/messages/${id}`,
 };

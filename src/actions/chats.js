@@ -7,6 +7,7 @@ import {
   START_GET_MESSAGES,
   GET_MESSAGES_SUCCESS,
   GET_MESSAGES_FAILED,
+  ADD_TO_CHATS,
 } from './actionTypes';
 
 import { setSnackBar } from './snackbar';
@@ -24,7 +25,6 @@ export function fetchChats() {
 
     axios(config)
       .then(function (response) {
-        console.log(response.data);
         dispatch(getChatsSuccess(response.data.chats));
       })
       .catch(function (error) {
@@ -96,5 +96,12 @@ export function getMessagesSuccess(messages) {
   return {
     type: GET_MESSAGES_SUCCESS,
     messages,
+  };
+}
+
+export function addToChats(chat) {
+  return {
+    type: ADD_TO_CHATS,
+    chat,
   };
 }
