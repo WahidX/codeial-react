@@ -13,17 +13,21 @@ function ResultChips(props) {
 
   let handleSelect = (id) => {
     socket.socket.emit('enter-room', props.user.user._id, id, (response) => {
+      // if we already have
+      let all_chats = props.chats.chats;
+      if (all_chats) {
+        for (let i = 0; i < all_chats.length; i++) {
+          if (all_chats[i]._id === response.newChat._id) return;
+        }
+      }
+
       props.dispatch(addToChats(response.newChat));
     });
-
-    // socket.socket.emit('enter-room', {
-    //   uid: props.user.user._id,
-    //   targetUid: id,
-    // });
-    // props.dispatch(fetchChats());
   };
 
   let results = props.search.userResults || [];
+  // removing user him/her-self
+  results = results.filter((result) => result._id !== props.user.user._id);
 
   return (
     <div className="chip-list">
