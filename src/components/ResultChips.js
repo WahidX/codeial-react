@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Chip, Avatar } from '@material-ui/core';
 import { getSocket } from '../helpers/socket';
-import { addToChats } from '../actions/chats';
+import { addToChats, switchRecipent } from '../actions/chats';
+import { setSnackBar } from '../actions/snackbar';
 
 let socket;
 
@@ -14,6 +15,16 @@ function ResultChips(props) {
   let handleSelect = (id) => {
     socket.socket.emit('enter-room', props.user.user._id, id, (response) => {
       // if we already have
+      if (!response) {
+        props.dispatch(setSnackBar('error', 'Server Error!', 3000));
+      }
+      let recipent =
+        response.newChat.users[0]._id === props.user.user._id
+          ? response.newChat.users[1]
+          : response.newChat.users[0];
+      props.dispatch(switchRecipent(recipent, response.newChat._id));
+
+      // check if esisting chat or not
       let all_chats = props.chats.chats;
       if (all_chats) {
         for (let i = 0; i < all_chats.length; i++) {

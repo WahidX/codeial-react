@@ -6,6 +6,7 @@ import {
   Typography,
   Accordion,
   AccordionSummary,
+  Avatar,
 } from '@material-ui/core';
 import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -13,38 +14,42 @@ import { getSocket } from '../helpers/socket';
 
 let socket;
 
-const messages = [
-  'hello',
-  'msg',
-  'Hellowww',
-  'Noice',
-  'hello',
-  'msg',
-  'Hellowww',
-  'Noice',
-];
+// const messages = [
+//   'hello',
+//   'msg',
+//   'Hellowww',
+//   'Noice',
+//   'hello',
+//   'msg',
+//   'Hellowww',
+//   'Noice',
+// ];
 
 function ChatBox(props) {
-  const [msg, setMsg] = useInput('');
   let id = props.user.user._id;
-  let isLoggedin = props.user.isLoggedin;
-  useEffect(() => {
-    // socket = new Socket(props.user.user._id); //uid
-    socket = getSocket(id);
-    console.log('tryryryyryryryy');
+  useEffect(
+    (props) => {
+      socket = getSocket(id);
 
-    socket.socket.on('online', (uid) => {
-      console.log('uid came online: ', uid);
-    });
+      socket.socket.on('online', (uid) => {
+        console.log('uid came online: ', uid);
+      });
 
-    socket.socket.on('offline', (uid) => {
-      console.log('uid went offline: ', uid);
-    });
+      socket.socket.on('offline', (uid) => {
+        console.log('uid went offline: ', uid);
+      });
 
-    return () => {
-      socket.closeSocket();
-    };
-  }, [isLoggedin]);
+      return () => {
+        socket.closeSocket();
+      };
+    },
+    [props.user.isLoggedin]
+  );
+
+  const [msg, setMsg] = useInput('');
+  let { messages, roomID, recipent } = props.chats;
+
+  if (messages === null) messages = [];
 
   function useInput(initialValue) {
     const [value, setValue] = useState(initialValue);
@@ -57,27 +62,49 @@ function ChatBox(props) {
   let handleSend = () => {
     if (msg.trim().length === 0) return;
     console.log(`MSG: ${msg.trim()}`);
-    socket.socket.emit('send-message', { msg: msg, uid: props.user.user._id }); //room id needed
+    socket.socket.emit('send-message', {
+      msg: msg,
+      uid: id,
+      roomID: roomID,
+    });
     document.getElementById('textfield-chat').value = '';
   };
 
   return (
     <Accordion className="chat-window">
       <AccordionSummary className="title" expandIcon={<ExpandMoreIcon />}>
-        <Typography color="primary">User Name</Typography>
+        {recipent && recipent.avatar ? (
+          <img
+            src={recipent.avatar}
+            style={{ width: '30px', borderRadius: '50%' }}
+            alt="avatar"
+          />
+        ) : (
+          <Avatar />
+        )}
+        <Typography color="primary">
+          &nbsp;&nbsp;&nbsp;{recipent ? recipent.name : ' '}
+        </Typography>
       </AccordionSummary>
       <div className="flex-row">
         <div>
           <div dense={true} className="msg-list">
             {messages.map((msg) => (
-              <p className="msg msg-right">{msg}</p>
+              <p className="msg msg-right" id={msg._id}>
+                {msg}
+              </p>
             ))}
           </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <TextField id="textfield-chat" onChange={setMsg} value={msg} />
-          <IconButton onClick={handleSend}>
+          <TextField
+            id="textfield-chat"
+            onChange={setMsg}
+            value={msg}
+            disabled={!recipent}
+          />
+          <IconButton onClick={handleSend} disabled={!recipent}>
             <SendTwoToneIcon />
           </IconButton>
         </div>
@@ -89,6 +116,7 @@ function ChatBox(props) {
 function mapStateToProps(state) {
   return {
     user: state.user,
+    chats: state.chats,
   };
 }
 

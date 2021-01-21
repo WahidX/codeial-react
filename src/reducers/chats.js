@@ -14,6 +14,7 @@ const initialState = {
   messages: [],
   loading: false,
   error: null,
+  roomID: null,
   recipent: null,
 };
 
@@ -50,6 +51,7 @@ export default function chats(state = initialState, action) {
       return {
         ...state,
         recipent: action.recipent,
+        roomID: action.roomID,
       };
     case ADD_TO_CHATS:
       return {

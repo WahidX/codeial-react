@@ -13,10 +13,27 @@ import {
 } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { getSocket } from '../helpers/socket';
+import { setSnackBar } from '../actions/snackbar';
+import { switchRecipent } from '../actions/chats';
 
 function ChatList(props) {
   let all_chats = props.chats.chats;
-  console.log(all_chats);
+  let socket = getSocket(props.user.user._id);
+
+  let handleSelect = (id) => {
+    socket.socket.emit('enter-room', props.user.user._id, id, (response) => {
+      // if we already have
+      if (!response) {
+        props.dispatch(setSnackBar('error', 'Server Error!', 3000));
+      }
+      let recipent =
+        response.newChat.users[0]._id === props.user.user._id
+          ? response.newChat.users[1]
+          : response.newChat.users[0];
+      props.dispatch(switchRecipent(recipent, response.newChat._id));
+    });
+  };
 
   function ChatItem(props) {
     // bringing the recipent
@@ -27,7 +44,11 @@ function ChatList(props) {
         : props.chat.users[0];
 
     return (
-      <ListItem button id={props.chat._id}>
+      <ListItem
+        button
+        id={props.chat._id}
+        onClick={() => handleSelect(recipent._id)}
+      >
         <ListItemIcon>
           {recipent.avatar ? (
             <img
@@ -52,7 +73,7 @@ function ChatList(props) {
       <AccordionDetails>
         <List component="nav" dense={true}>
           {all_chats.map((chat) => (
-            <ChatItem chat={chat} user={props.user.user} />
+            <ChatItem chat={chat} user={props.user.user} key={chat._id} />
           ))}
         </List>
       </AccordionDetails>
