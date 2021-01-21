@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Chip, Avatar } from '@material-ui/core';
 import { getSocket } from '../helpers/socket';
-import { addToChats, switchRecipent } from '../actions/chats';
+import { addToChats, switchRecipent, fetchMessages } from '../actions/chats';
 import { setSnackBar } from '../actions/snackbar';
 
 let socket;
@@ -18,6 +18,7 @@ function ResultChips(props) {
       if (!response) {
         props.dispatch(setSnackBar('error', 'Server Error!', 3000));
       }
+      props.dispatch(fetchMessages(response.newChat._id));
       let recipent =
         response.newChat.users[0]._id === props.user.user._id
           ? response.newChat.users[1]
@@ -31,7 +32,6 @@ function ResultChips(props) {
           if (all_chats[i]._id === response.newChat._id) return;
         }
       }
-
       props.dispatch(addToChats(response.newChat));
     });
   };

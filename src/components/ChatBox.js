@@ -62,11 +62,10 @@ function ChatBox(props) {
   let handleSend = () => {
     if (msg.trim().length === 0) return;
     console.log(`MSG: ${msg.trim()}`);
-    socket.socket.emit('send-message', {
-      msg: msg,
-      uid: id,
-      roomID: roomID,
+    socket.socket.emit('send-message', msg, id, roomID, (response) => {
+      console.log('Status: ', response.status);
     });
+
     document.getElementById('textfield-chat').value = '';
   };
 
@@ -91,7 +90,7 @@ function ChatBox(props) {
           <div dense={true} className="msg-list">
             {messages.map((msg) => (
               <p className="msg msg-right" id={msg._id}>
-                {msg}
+                {msg.content}
               </p>
             ))}
           </div>

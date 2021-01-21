@@ -15,7 +15,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { getSocket } from '../helpers/socket';
 import { setSnackBar } from '../actions/snackbar';
-import { switchRecipent } from '../actions/chats';
+import { fetchMessages, switchRecipent } from '../actions/chats';
 
 function ChatList(props) {
   let all_chats = props.chats.chats;
@@ -31,6 +31,7 @@ function ChatList(props) {
         response.newChat.users[0]._id === props.user.user._id
           ? response.newChat.users[1]
           : response.newChat.users[0];
+      props.dispatch(fetchMessages(response.newChat._id));
       props.dispatch(switchRecipent(recipent, response.newChat._id));
     });
   };
