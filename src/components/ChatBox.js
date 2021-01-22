@@ -9,7 +9,7 @@ import {
   Avatar,
 } from '@material-ui/core';
 import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 import { getSocket } from '../helpers/socket';
 import { addToMessages } from '../actions/chats';
@@ -18,6 +18,8 @@ let socket;
 
 function ChatBox(props) {
   let id = props.user.user._id;
+  let { messages, roomID, recipent } = props.chats;
+  if (messages === null) messages = [];
 
   useEffect(() => {
     socket = getSocket(id);
@@ -34,9 +36,6 @@ function ChatBox(props) {
     };
   }, [props.user.isLoggedin]);
 
-  let { messages, roomID, recipent } = props.chats;
-  if (messages === null) messages = [];
-
   useEffect(() => {
     // incoming messages:
     socket.socket.on('incoming-msg', (message) => {
@@ -45,15 +44,7 @@ function ChatBox(props) {
     });
   }, []);
 
-  const [msg, setMsg] = useInput('');
-
-  function useInput(initialValue) {
-    const [value, setValue] = useState(initialValue);
-    function handleChange(e) {
-      setValue(e.target.value);
-    }
-    return [value, handleChange];
-  }
+  const [msg, setMsg] = useState('');
 
   let handleSend = () => {
     if (msg.trim().length === 0) return;
@@ -61,8 +52,7 @@ function ChatBox(props) {
     socket.socket.emit('send-message', msg.trim(), id, roomID, (response) => {
       // console.log('Status: ', response.status);
     });
-
-    document.getElementById('textfield-chat').value = '';
+    setMsg('');
   };
 
   // For scroll to bottom
@@ -74,7 +64,7 @@ function ChatBox(props) {
 
   return (
     <Accordion className="chat-window">
-      <AccordionSummary className="title" expandIcon={<ExpandMoreIcon />}>
+      <AccordionSummary className="title" expandIcon={<ExpandLessIcon />}>
         {recipent && recipent.avatar ? (
           <img
             src={recipent.avatar}
@@ -92,7 +82,10 @@ function ChatBox(props) {
         <div>
           <div dense={true} className="msg-list">
             {messages.map((msg) => (
-              <p className="msg msg-right" id={msg._id}>
+              <p
+                className={msg.from === id ? 'msg msg-right' : 'msg msg-left'}
+                id={msg._id}
+              >
                 {msg.content}
               </p>
             ))}
@@ -103,9 +96,10 @@ function ChatBox(props) {
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <TextField
             id="textfield-chat"
-            onChange={setMsg}
+            onChange={(e) => setMsg(e.target.value)}
             value={msg}
             disabled={!recipent}
+            style={{ width: '90%' }}
           />
           <IconButton onClick={handleSend} disabled={!recipent}>
             <SendTwoToneIcon />

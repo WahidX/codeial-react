@@ -12,7 +12,7 @@ import {
   ListItemIcon,
 } from '@material-ui/core';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { getSocket } from '../helpers/socket';
 import { setSnackBar } from '../actions/snackbar';
 import { fetchMessages, switchRecipent } from '../actions/chats';
@@ -68,7 +68,7 @@ function ChatList(props) {
 
   return (
     <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />} id="allchats">
+      <AccordionSummary expandIcon={<ExpandLessIcon />} id="allchats">
         <Typography>All Chats</Typography>
       </AccordionSummary>
       <AccordionDetails>

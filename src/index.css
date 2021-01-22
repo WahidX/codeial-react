@@ -38,6 +38,7 @@ body {
   right: 1%;
   width: 25%;
   min-width: 200px;
+  z-index: 10;
 }
 
 .chat-window {
@@ -73,20 +74,20 @@ body {
 
 .msg {
   font-size: 0.8rem;
-  background-color: white;
-  border: solid 2px rgb(156, 191, 255);
+  width: auto;
+  background-color: rgb(135, 197, 255);
+  border: solid 2px rgb(135, 197, 255);
   padding: 0px 8px;
   margin: 5px;
 }
 
 .msg-right {
-  text-align: right;
-  /* float: right; */
+  align-self: flex-end;
   border-radius: 8px 8px 0px 8px;
 }
 
 .msg-left {
-  text-align: left;
+  align-self: flex-start;
   border-radius: 0px 8px 8px 8px;
 }
 

@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 
 import { ChatList, ChatBox, SearchBox, ResultChips } from './';
 import { getSocket } from '../helpers/socket';
@@ -23,16 +19,12 @@ function ChatContainer(props) {
   return (
     <div id="chat-container">
       <ChatList />
-
-      <Accordion>
-        <AccordionSummary className="title">
+      <Paper style={{ padding: '10px' }}>
+        <div>
           <SearchBox filter="user" />
-        </AccordionSummary>
-        <AccordionDetails className="flex-column">
-          <ResultChips />
-        </AccordionDetails>
-      </Accordion>
-
+        </div>
+        <ResultChips />
+      </Paper>
       <ChatBox />
     </div>
   );
