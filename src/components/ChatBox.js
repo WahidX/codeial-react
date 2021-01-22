@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import {
   TextField,
@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import { getSocket } from '../helpers/socket';
 import { addToMessages } from '../actions/chats';
 
@@ -17,34 +18,34 @@ let socket;
 
 function ChatBox(props) {
   let id = props.user.user._id;
-  socket = getSocket(id);
-  useEffect(
-    (props) => {
-      socket.socket.on('online', (uid) => {
-        console.log('uid came online: ', uid);
-      });
 
-      socket.socket.on('offline', (uid) => {
-        console.log('uid went offline: ', uid);
-      });
+  useEffect(() => {
+    socket = getSocket(id);
+    socket.socket.on('online', (uid) => {
+      console.log('uid came online: ', uid);
+    });
 
-      return () => {
-        socket.closeSocket();
-      };
-    },
-    [props.user.isLoggedin]
-  );
+    socket.socket.on('offline', (uid) => {
+      console.log('uid went offline: ', uid);
+    });
+
+    return () => {
+      socket.closeSocket();
+    };
+  }, [props.user.isLoggedin]);
+
+  let { messages, roomID, recipent } = props.chats;
+  if (messages === null) messages = [];
+
+  useEffect(() => {
+    // incoming messages:
+    socket.socket.on('incoming-msg', (message) => {
+      console.log('MESSAGE: ', message);
+      props.dispatch(addToMessages(message));
+    });
+  }, []);
 
   const [msg, setMsg] = useInput('');
-  let { messages, roomID, recipent } = props.chats;
-
-  // incoming messages:
-  socket.socket.on('incoming-message', (message) => {
-    console.log('MESSAGE: ', message);
-    props.dispatch(addToMessages(message));
-  });
-
-  if (messages === null) messages = [];
 
   function useInput(initialValue) {
     const [value, setValue] = useState(initialValue);
@@ -58,20 +59,18 @@ function ChatBox(props) {
     if (msg.trim().length === 0) return;
     console.log(`MSG: ${msg.trim()}`);
     socket.socket.emit('send-message', msg.trim(), id, roomID, (response) => {
-      console.log('Status: ', response.status);
-      props.dispatch(
-        addToMessages({
-          _id: Math.random() * 100000,
-          status: 'sent',
-          content: msg.trim(),
-          from: props.user.user._id,
-          room: roomID,
-        })
-      );
+      // console.log('Status: ', response.status);
     });
 
     document.getElementById('textfield-chat').value = '';
   };
+
+  // For scroll to bottom
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+  useEffect(scrollToBottom, [messages]);
 
   return (
     <Accordion className="chat-window">
@@ -97,6 +96,7 @@ function ChatBox(props) {
                 {msg.content}
               </p>
             ))}
+            <div ref={messagesEndRef} />
           </div>
         </div>
 

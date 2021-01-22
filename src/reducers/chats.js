@@ -60,10 +60,14 @@ export default function chats(state = initialState, action) {
         chats: [...state.chats, action.chat],
       };
     case ADD_TO_MESSAGES:
-      return {
-        ...state,
-        messages: [...state.messages, action.message],
-      };
+      if (state.roomID === action.message.room) {
+        return {
+          ...state,
+          messages: [...state.messages, action.message],
+        };
+      } else {
+        return state;
+      }
 
     default:
       return state;
