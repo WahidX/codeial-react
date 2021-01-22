@@ -11,26 +11,15 @@ import {
 import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { getSocket } from '../helpers/socket';
+import { addToMessages } from '../actions/chats';
 
 let socket;
 
-// const messages = [
-//   'hello',
-//   'msg',
-//   'Hellowww',
-//   'Noice',
-//   'hello',
-//   'msg',
-//   'Hellowww',
-//   'Noice',
-// ];
-
 function ChatBox(props) {
   let id = props.user.user._id;
+  socket = getSocket(id);
   useEffect(
     (props) => {
-      socket = getSocket(id);
-
       socket.socket.on('online', (uid) => {
         console.log('uid came online: ', uid);
       });
@@ -49,6 +38,12 @@ function ChatBox(props) {
   const [msg, setMsg] = useInput('');
   let { messages, roomID, recipent } = props.chats;
 
+  // incoming messages:
+  socket.socket.on('incoming-message', (message) => {
+    console.log('MESSAGE: ', message);
+    props.dispatch(addToMessages(message));
+  });
+
   if (messages === null) messages = [];
 
   function useInput(initialValue) {
@@ -62,8 +57,17 @@ function ChatBox(props) {
   let handleSend = () => {
     if (msg.trim().length === 0) return;
     console.log(`MSG: ${msg.trim()}`);
-    socket.socket.emit('send-message', msg, id, roomID, (response) => {
+    socket.socket.emit('send-message', msg.trim(), id, roomID, (response) => {
       console.log('Status: ', response.status);
+      props.dispatch(
+        addToMessages({
+          _id: Math.random() * 100000,
+          status: 'sent',
+          content: msg.trim(),
+          from: props.user.user._id,
+          room: roomID,
+        })
+      );
     });
 
     document.getElementById('textfield-chat').value = '';

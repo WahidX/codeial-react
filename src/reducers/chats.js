@@ -7,6 +7,7 @@ import {
   GET_MESSAGES_FAILED,
   SWITCH_RECIPENT,
   ADD_TO_CHATS,
+  ADD_TO_MESSAGES,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -57,6 +58,11 @@ export default function chats(state = initialState, action) {
       return {
         ...state,
         chats: [...state.chats, action.chat],
+      };
+    case ADD_TO_MESSAGES:
+      return {
+        ...state,
+        messages: [...state.messages, action.message],
       };
 
     default:

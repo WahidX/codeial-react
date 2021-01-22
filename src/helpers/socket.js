@@ -21,6 +21,10 @@ export default class Socket {
     // this.socket.on('online', (uid) => {
     //   console.log('uid came online: ', uid);
     // });
+
+    this.socket.on('incoming-message', (msg) => {
+      console.log('MESSAGE: ', msg);
+    });
   }
 
   // emitEvent(event, args) {

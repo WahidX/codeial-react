@@ -9,6 +9,7 @@ import {
   GET_MESSAGES_FAILED,
   ADD_TO_CHATS,
   SWITCH_RECIPENT,
+  ADD_TO_MESSAGES,
 } from './actionTypes';
 
 import { setSnackBar } from './snackbar';
@@ -112,5 +113,12 @@ export function switchRecipent(recipent, roomID) {
     type: SWITCH_RECIPENT,
     recipent,
     roomID,
+  };
+}
+
+export function addToMessages(message) {
+  return {
+    type: ADD_TO_MESSAGES,
+    message,
   };
 }
