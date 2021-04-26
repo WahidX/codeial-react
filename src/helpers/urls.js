@@ -1,5 +1,8 @@
 // export const SERVER_ROOT = 'https://codeialx.herokuapp.com';
-export const SERVER_ROOT = 'http://localhost:8000';
+// export const SERVER_ROOT = 'http://localhost:8000';
+export const SERVER_ROOT = 'http://13.233.196.0:8000';
+const CHAT_SERVER = 'http://13.233.196.0:5000';
+
 const API_ROOT = `${SERVER_ROOT}/api/v1`;
 
 export const APIurls = {
@@ -28,7 +31,7 @@ export const APIurls = {
     `${API_ROOT}/search/?key=${key}&type=${type}`,
 
   // socket Endpoint
-  getEndPoint: () => 'localhost:5000',
+  getEndPoint: () => `${CHAT_SERVER}`,
   getChats: () => `${API_ROOT}/chat/all-chats`,
   getMessages: (id) => `${API_ROOT}/chat/messages/${id}`,
 };
